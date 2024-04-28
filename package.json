@@ -8,9 +8,9 @@
     "lint": "next lint",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev --name init",
-    "dbinit": "NODE_ENV=development npx ts-node --esm prisma/dbInit.mts",
+    "dbinit": "NODE_ENV=development npx ts-node prisma/dbInit.ts",
     "start": "NODE_ENV=development npx ts-node src/server.ts",
-    "deploy": "prisma generate && prisma migrate deploy && NODE_ENV=production npx ts-node --esm prisma/dbInit.mts && NODE_ENV=production npx ts-node src/server.ts"
+    "deploy": "prisma generate && prisma migrate deploy && NODE_ENV=production npx ts-node prisma/dbInit.ts && NODE_ENV=production npx ts-node src/server.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
