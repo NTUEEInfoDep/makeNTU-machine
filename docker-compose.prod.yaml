@@ -1,7 +1,7 @@
 version: '3.4'
 services :
-  web:
-    container_name: makentu-machine
+  makentu_machine-web:
+    container_name: makentu_machine
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -10,11 +10,12 @@ services :
     expose:
       - 8001
     depends_on:
-      - db
+      - postgres
     networks:
       - makentu-competition
       - nginx
-  postgres-db:
+  postgres:
+    container_name: postgres
     image: postgres
     ports:
       - "5432:5432"
@@ -30,4 +31,3 @@ services :
     nginx:
       external: true
     makentu-competition:
-  
