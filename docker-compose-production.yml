@@ -14,7 +14,7 @@ services :
     networks:
       - makentu-competition
       - nginx
-  db:
+  postgres-db:
     image: postgres
     ports:
       - "5432:5432"
