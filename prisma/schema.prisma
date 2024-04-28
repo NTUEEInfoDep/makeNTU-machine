@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique  
+  password    String
+  permission  String
+  LaserCutReq LaserCutReq[]
+  ThreeDPReq  ThreeDPReq[]
+}
+
+model LaserCutReq {
+  id            Int         @id @default(autoincrement())
+  group         Account     @relation(fields: [groupname], references: [name])
+  groupname     String
+  machine       Int         // e.g. 0, 1
+  filename      String  
+  material      String[]       // e.g. 0: 3mm 密集, 1: 5mm 密集, 2: 3mm 壓克力, 3: 5mm 壓克力
+  finalMaterial String
+  comment       String?
+  status        String      
+  timeleft      DateTime
+  createAt      DateTime    @default(now())
+}
+
+model ThreeDPReq {
+  id          Int         @id @default(autoincrement())
+  group       Account     @relation(fields: [groupname], references: [name])
+  groupname   String
+  machine     Int         // e.g. 0, 1
+  filename    String
+  loadBearing Boolean     
+  material    String[]       // e.g. 0: PLA, 1: Other
+  comment     String?
+  status      String    
+  timeleft    DateTime  
+  createAt    DateTime    @default(now())
+}
