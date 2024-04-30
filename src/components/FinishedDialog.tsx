@@ -70,7 +70,7 @@ export default function FinishedDialog({ id, open, groupName, onClose, type }: F
                 <Separator />
                 <DialogContent className="w-96 h-40">
                     <div className="m-1 w-full flex flex-col items-top justify-center">
-                        <p className="text-lg font-bold">記得請 {groupName} 的選手拿取雷切成品</p>
+                        <p className="text-lg font-bold">記得請 {groupName} 的選手拿取{type === "laser" ? "雷切" : "3D列印" }成品</p>
                     </div>  
                 </DialogContent>
                 <DialogActions>
