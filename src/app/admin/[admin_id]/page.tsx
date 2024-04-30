@@ -44,7 +44,7 @@ export default function useAdmin() {
     }
 
     return (
-        <div className="bg-black">
+        <div className="bg-black pb-5">
             <Map />
             <div className="flex items-center justify-center">
                 <button 

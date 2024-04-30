@@ -52,7 +52,7 @@ export default function Login() {
         try {
             const { user: user, token: token } = await getAccount({ username, password });
             localStorage.setItem("jwt-token: ", token);
-            if (user.name.startsWith('contestant')) {
+            if (user.name.startsWith('team')) {
                 router.push(`/contestant/${username}`); 
             }
             else if (user.name.startsWith('admin')) {
@@ -87,9 +87,9 @@ export default function Login() {
     }
 
     return (
-        <>
+        <div className="bg-black">
         <div className="h-8"></div>
-        <div className="m-2 flex flex-col items-center justify-between bg-black">
+        <div className="p-2 flex flex-col items-center justify-between bg-black">
             <div className="m-2 flex w-2/6 justify-center items-center gap-2 active:none">
                 <p className="font-bold text-white">帳號：</p>
                 <InputArea
@@ -135,6 +135,7 @@ export default function Login() {
                 >登入</button>}
             </div>
         </div>
-        </>
+        <div className="h-screen"></div>
+        </div>
     )
 }
