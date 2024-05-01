@@ -68,7 +68,10 @@ export default function Status( {id, initialState, timeStarted, type}: StatusPro
         setFlag(true);
         if (initialState === '等待檔案'){
             setCountdown(true);
-            setTimeLeft(Math.trunc(20-(new Date().getTime()-new Date(timeStarted).getTime())/1000))
+            setTimeLeft(Math.trunc(180-(new Date().getTime()-new Date(timeStarted).getTime())/1000))
+        }
+        else {
+            setCountdown(false);
         }
     },[initialState])
     
