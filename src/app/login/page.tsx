@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import InputArea from "@/components/ui/InputArea";
 import useAccount from "@/hooks/useAccount";
 
-
 export default function Login() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -52,11 +51,11 @@ export default function Login() {
         try {
             const { user: user, token: token } = await getAccount({ username, password });
             localStorage.setItem("jwt-token: ", token);
-            if (user.name.startsWith('team')) {
-                router.push(`/contestant/${username}`); 
-            }
-            else if (user.name.startsWith('admin')) {
+            if (user.name.startsWith('admin')) {
                 router.push(`/admin/${username}`);
+            }
+            else {
+                router.push(`/contestant/${username}`); 
             }
         } catch(error) {
             alert("登入失敗");
@@ -77,13 +76,15 @@ export default function Login() {
                 alert("密碼不一致");
                 return false;
             }
-        }
-        if (!username.startsWith("admin") && !username.startsWith("team")) {
-            alert("帳號格式錯誤");
-            return false;
-        } else {
+        } else{
             return true;
         }
+        // if (!username.startsWith("admin") && !username.startsWith("team")) {
+        //     alert("帳號格式錯誤");
+        //     return false;
+        // } else {
+        //     return true;
+        // }
     }
 
     return (
