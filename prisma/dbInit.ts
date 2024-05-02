@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const superADMIN = {
-    "name": "admin0",
+    "name": "0",
     "password": "0",
     "permission": "admin"
 }

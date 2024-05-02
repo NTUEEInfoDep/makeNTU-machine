@@ -51,7 +51,7 @@ export default function Login() {
         try {
             const { user: user, token: token } = await getAccount({ username, password });
             localStorage.setItem("jwt-token: ", token);
-            if (user.name.startsWith('admin')) {
+            if (parseInt(user.name) > 45 || parseInt(user.name) === 0) {
                 router.push(`/admin/${username}`);
             }
             else {
