@@ -79,12 +79,6 @@ export default function Login() {
         } else{
             return true;
         }
-        // if (!username.startsWith("admin") && !username.startsWith("team")) {
-        //     alert("帳號格式錯誤");
-        //     return false;
-        // } else {
-        //     return true;
-        // }
     }
 
     return (
