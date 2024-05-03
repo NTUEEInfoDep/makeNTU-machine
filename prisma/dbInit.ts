@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const superADMIN = {
     "name": "0",
-    "password": "0",
+    "password": "hGjOYp43",
     "permission": "admin"
 }
 

@@ -98,28 +98,30 @@ export default function TeamData() {
 
     return (
         <>
-        <div className="h-5"></div>
-        <div className="flex items-center justify-center">
-            <button 
-                className="m-4 bg-yellow-500 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded"
-                onClick={() => handleClear()}>Clear All Users
-            </button>   
-        </div>
-        <div className="flex items-center justify-center">
-            <input type="file" id="uploader" 
-                className="m-4 bg-yellow-500 hover:bg-yellow-300 py-2 px-4 rounded text-black" 
-                accept=".csv"
-                onChange={handleCSVUpload} />
-        </div>
-        <div className="flex items-center justify-center">
-            <p className="text-sm font-bold text-red-500">{msg}</p>
-        </div>
-        <div className="h-5"></div>
-        <div className="flex items-center justify-center">
-            <button 
-                className="m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => router.push(`/admin/${username}`)}>回到主頁
-            </button>   
+        <div className="bg-black">
+            <div className="h-5"></div>
+            <div className="flex items-center justify-center">
+                <button 
+                    className="m-4 bg-yellow-500 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded"
+                    onClick={() => handleClear()}>Clear All Users
+                </button>   
+            </div>
+            <div className="flex items-center justify-center">
+                <input type="file" id="uploader" 
+                    className="m-4 bg-yellow-500 hover:bg-yellow-300 py-2 px-4 rounded text-black" 
+                    accept=".csv"
+                    onChange={handleCSVUpload} />
+            </div>
+            <div className="flex items-center justify-center">
+                <p className="text-sm font-bold text-red-500">{msg}</p>
+            </div>
+            <div className="h-5"></div>
+            <div className="flex items-center justify-center">
+                <button 
+                    className="m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => router.push(`/admin/${username}`)}>回到主頁
+                </button>   
+            </div>
         </div>
         </>
     )

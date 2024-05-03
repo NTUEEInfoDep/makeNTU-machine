@@ -125,7 +125,7 @@ export default function ThreeDPQueueList() {
                 </Table>
             </TableContainer>
         </div>
-        <div className="h-5"></div>
+        <div className="h-5 bg-black"></div>
         </>
     )
 }

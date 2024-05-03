@@ -157,10 +157,15 @@ export default function useReserve() {
                 <Checkbox style={{color: "yellow"}} onClick={ ()=>{switchCase()} }/>
                 <p>自行攜帶板材雷切(需在備註寫下材質與速度、功率等參數)</p>
             </div>
+            <div className="flex items-center">
+                <p className="text-yellow-300">*主辦方將視情況使用部分板材測試調整</p>
+            </div>
+            <div className="flex items-center">
+                <p className="text-yellow-300">*板材最大為80cm*60cm</p>
+            </div>
             <div className="m-3 mb-0.5 w-2/6 flex items-center gap-2">
                 <p className="font-bold w-1/4 text-right">檔案名稱：</p>
-                <InputArea
-                    
+                <InputArea                   
                     placeHolder={"file name"}
                     editable={true}
                     value={filename}

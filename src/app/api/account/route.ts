@@ -102,7 +102,7 @@ export async function DELETE(req: NextRequest) {
     try {
         const deleteUser = await prisma.account.deleteMany({
             where: {
-                name: { not: "admin0" }
+                name: { not: "0" }
             }
         });
         return NextResponse.json({ message: "OK" }, { status: 200 });
