@@ -41,6 +41,7 @@ export default function useContestant() {
             <Map />
             <LaserCutQueueListForContestant/>
             <ThreeDPQueueListForContestant/>
+            <div className="h-screen"></div>
         </div>
     )
 }

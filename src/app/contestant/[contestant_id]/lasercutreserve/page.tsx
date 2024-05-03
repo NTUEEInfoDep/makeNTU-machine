@@ -201,6 +201,7 @@ export default function useReserve() {
                     className="m-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
                     onClick={()=>handleSubmit()}>登記</button>
             </div>
+            <div className="h-screen"></div>
             <LaserReserveDialog 
                 open={open}
                 group={pathTemp[2]}

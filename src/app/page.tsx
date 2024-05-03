@@ -10,6 +10,7 @@ export default function Home() {
         <Map/>
         <LaserCutQueueList/>
         <ThreeDPQueueList/>
+        <div className="h-screen"></div>
       </div>
     </>
   )
