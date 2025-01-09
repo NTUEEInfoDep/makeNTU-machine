@@ -10,9 +10,9 @@ const nextConfig = {
   //     },
   //   ];
   // },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
 // module.exports = {
 //   webpack: (config, { isServer }) => {
 //     config.module.rules.push({
@@ -25,4 +25,4 @@ module.exports = nextConfig
 // };
 module.exports = {
   reactStrictMode: false,
-}
+};

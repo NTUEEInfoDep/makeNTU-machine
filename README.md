@@ -1,30 +1,30 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+
 First we install the dependencies:
+
 ```bash
-yarn
+npm i
 ```
-Next, we start the backend. 
+
+Next, we start the backend.
 
 note: Be sure you have your docker desktop running
+
 ```bash
 docker-compose up -d
 ```
+
 ```bash
-yarn generate
-yarn migrate
+npm run generate
+npm run migrate
 ```
+
 Then, we run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -34,15 +34,18 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Schema Manipulation (backend startup)
+
 ```bash
 docker-compose up -d
 ```
+
 note: Be sure you have your docker desktop running
 
 ```bash
-yarn generate
-yarn migrate
+npm run generate
+npm run migrate
 ```
+
 **This command must be run everytime when schema is changed to sync the database table**
 
 ## Learn More
