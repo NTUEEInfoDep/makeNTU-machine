@@ -71,7 +71,7 @@ export const AccountProvider = ({ children }: Props) => {
       return JSON.parse(payload);
     }
     if (!token) {
-      // alert("You are not logged in.");
+      // alert("未登入");
       // router.push("/login");
     } else {
       const decodedPayload = decodeJWT(token);

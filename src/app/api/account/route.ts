@@ -38,10 +38,7 @@ export async function POST(req: NextRequest) {
           { status: 200 },
         );
       } else {
-        return NextResponse.json(
-          { error: "Account already existed" },
-          { status: 400 },
-        );
+        return NextResponse.json({ error: "帳號以註冊" }, { status: 400 });
       }
     } catch (error) {
       console.log("error: ", error);
@@ -58,10 +55,7 @@ export async function POST(req: NextRequest) {
         },
       });
       if (!user) {
-        return NextResponse.json(
-          { error: "Account does not exist" },
-          { status: 400 },
-        );
+        return NextResponse.json({ error: "使用者不存在" }, { status: 400 });
       } else {
         const isPasswordValid = password === user.password ? true : false;
         if (isPasswordValid) {
@@ -75,10 +69,7 @@ export async function POST(req: NextRequest) {
             { status: 200 },
           );
         } else {
-          return NextResponse.json(
-            { error: "Incorrect Password" },
-            { status: 400 },
-          );
+          return NextResponse.json({ error: "密碼錯誤" }, { status: 400 });
         }
       }
     } catch (error) {

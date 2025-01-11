@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import React, { useContext } from "react";
 import { RequestContext } from "@/context/Request";
 import { AccountContext } from "@/context/Account";
-import RequestCardForAdmin from "./RequestCardForAdmin";
+// import RequestCardForAdmin from "./RequestCardForAdmin";
 import CommentDialog from "./CommentDialog";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import StatusForAdmin from "@/components/StatusForAdmin";
@@ -12,10 +12,11 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { FormControl, TableHead, TableRow } from "@mui/material";
+import { FormControl, TableRow } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { threeDPQueueListForAdminTableCells } from "@/constant/index";
 
 type indRequestForAdmin = {
   id: number;
@@ -73,16 +74,6 @@ export default function ThreeDPQueueListForAdmin() {
     }
   };
 
-  const tableCells = [
-    "預約組別",
-    "檔案名稱",
-    "使用機台",
-    "承重與否",
-    "使用材料",
-    "列印狀態",
-    "備註",
-  ];
-
   return (
     <div className="w-10/12 mx-auto mb-6">
       <h1 className="text-2xl mb-2 font-semibold">申請列表</h1>
@@ -91,7 +82,7 @@ export default function ThreeDPQueueListForAdmin() {
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell) => (
+                {threeDPQueueListForAdminTableCells.map((cell) => (
                   <TableCell key={cell} className="font-bold text-center">
                     {cell}
                   </TableCell>

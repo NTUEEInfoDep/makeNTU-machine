@@ -28,7 +28,7 @@ export default function useAdmin() {
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");
     if (!token) {
-      alert("You are not logged in.");
+      alert("未登入");
       router.push("/login");
     } else {
       const decodedPayload = decodeJWT(token);
@@ -66,7 +66,7 @@ export default function useAdmin() {
   return loading ? (
     <LoaderSpiner />
   ) : (
-    <div className="bg-black pb-5">
+    <div className="bg-background pb-5">
       <div className="flex items-center justify-center gap-2.5 my-4">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded font-semibold"

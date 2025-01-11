@@ -36,7 +36,7 @@ export default function useReserve() {
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");
     if (!token) {
-      alert("You are not logged in.");
+      alert("未登入");
       router.push("/login");
     } else {
       const decodedPayload = decodeJWT(token);
@@ -78,7 +78,7 @@ export default function useReserve() {
   };
 
   return (
-    <div className="text-lg flex flex-col items-center justify-center bg-black text-white h-full">
+    <div className="text-lg flex flex-col items-center justify-center bg-background text-white h-full">
       <p className="font-bold text-3xl">3DP使用登記</p>
       <p className="text-center text-xl">隊伍編號：{pathTemp[2]}</p>
       <div className="m-3 mb-0.5 w-2/5 flex items-center gap-2">

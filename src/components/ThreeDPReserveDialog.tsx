@@ -75,14 +75,8 @@ export default function ThreeDPReserveDialog({
           </button>
           <button
             className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            onClick={async () =>
-              await handleSumbit(
-                group,
-                filename,
-                material,
-                loadBearing,
-                comment,
-              )
+            onClick={() =>
+              handleSumbit(group, filename, material, loadBearing, comment)
             }
           >
             確定

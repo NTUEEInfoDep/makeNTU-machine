@@ -8,11 +8,13 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { FormControl, TableHead, TableRow } from "@mui/material";
+import { TableRow } from "@mui/material";
 import CommentDialog from "./CommentDialog";
 import { request } from "http";
 import { useRouter } from "next/navigation";
 import FinishedDialog from "./FinishedDialog";
+import { threeDPMachineListTableCells } from "@/constant/index";
+
 export type MachineListProps = {
   index: number;
 };
@@ -29,7 +31,6 @@ export type indRequestForMachine = {
 
 export default function ThreeDPMachineList({ index }: MachineListProps) {
   const { requests } = useContext(RequestContext);
-  const Button = require("@mui/material/Button").default;
   const router = useRouter();
   const { getThreeDPRequest, putThreeDPRequestStatus } = useThreeDPRequest();
 
@@ -55,21 +56,19 @@ export default function ThreeDPMachineList({ index }: MachineListProps) {
     gReq();
   }, []);
 
-  const tableCells = ["預約組別", "檔案名稱", "承重與否", "狀態", "備註"];
   return (
     <>
-      <div className="flex-col content-start mb-6">
+      <div className="flex-col w-10/12 mx-auto justify-center mb-4">
         <h1 className="text-2xl mb-2 font-semibold">機台編號 {index}</h1>
-        <TableContainer
-          component={Paper}
-          sx={{ maxHeight: "400px", overflow: "auto" }}
-        >
+        <TableContainer component={Paper} className="rounded-b-none">
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
-            <TableHead></TableHead>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell, index) => (
-                  <TableCell key={index} className="font-bold text-center">
+                {threeDPMachineListTableCells.map((cell, index) => (
+                  <TableCell
+                    key={index}
+                    sx={{ textAlign: "center", fontWeight: "bold" }}
+                  >
                     {cell}
                   </TableCell>
                 ))}
@@ -91,26 +90,26 @@ export default function ThreeDPMachineList({ index }: MachineListProps) {
         />
         <TableContainer
           component={Paper}
-          sx={{ width: "95%", maxHeight: "400px", overflow: "auto" }}
+          className="rounded-none overflow-auto max-h-96"
         >
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
-            <TableHead></TableHead>
             <TableBody>
               {requestList?.map((request) =>
                 request.machine === index && request.status === "製作中" ? (
                   <TableRow key={request.id}>
-                    <TableCell sx={{ textAlign: "center" }}>
+                    <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                       {String(request.groupname)}
                     </TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>
+                    <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                       {request.filename}
                     </TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>
+                    <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                       {request.loadBearing ? "是" : "否"}
                     </TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>
+                    <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                       {request.status}
-                      <Button
+                      <button
+                        className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                         onClick={() => {
                           setDialogOpen(true);
                           setGroupID(request.id);
@@ -118,9 +117,9 @@ export default function ThreeDPMachineList({ index }: MachineListProps) {
                         }}
                       >
                         完成
-                      </Button>
+                      </button>
                     </TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>
+                    <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                       {request.comment ? (
                         <button
                           onClick={() => {

@@ -2,7 +2,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAccountContext } from "@/context/Account";
-import LoaderSpiner from "./LoaderSpinner";
 
 export type Account = {
   username: string;
@@ -30,11 +29,11 @@ export default function HeadBar() {
 
   const handleLogin = () => {
     setLoading(true);
+    setPushToLoginPage(true);
     router.push("/login");
     setTimeout(() => {
-      setPushToLoginPage(true);
       setLoading(false);
-    }, 1000);
+    }, 500);
   };
 
   const handleLogout = () => {
@@ -45,7 +44,7 @@ export default function HeadBar() {
     setPushToLoginPage(false);
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
   };
 
   useEffect(() => {
@@ -59,55 +58,55 @@ export default function HeadBar() {
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");
     if (!token) {
-      // alert("You are not logged in.");
+      // alert("未登入");
       // router.push("/login");
     } else {
       const decodedPayload = decodeJWT(token);
       const name = decodedPayload?.username;
       // const permission = decodedPayload?.permission;
       if (!name) {
-        console.log("no name");
+        console.log("沒有使用者名稱");
       } else {
         // setUser({ username: name, permission: permission });
       }
     }
   }, []);
 
-  return loading ? (
-    <LoaderSpiner />
-  ) : (
+  return (
     <>
       <div className="bg-slate-900 py-4 px-4 flex flex-row justify-between gap-2 items-center">
         <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-white">
           MakeNTU 機台借用申請網站
         </h1>
-        <div className="flex flex-row items-center gap-2">
-          <div className="flex text-center mx-2">
-            {teamname && (
-              <p className="text-white text-xl sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-semibold">
-                {teamname}
-              </p>
-            )}
+        {!loading && (
+          <div className="flex flex-row items-center gap-2">
+            <div className="flex text-center mx-2">
+              {teamname && (
+                <p className="text-white text-xl sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-semibold">
+                  {teamname}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-row justify-between">
+              {pathname !== "/login" &&
+                (!pushToLoginPage && !teamname ? (
+                  <button
+                    className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={handleLogin}
+                  >
+                    登入
+                  </button>
+                ) : (
+                  <button
+                    className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={handleLogout}
+                  >
+                    登出
+                  </button>
+                ))}
+            </div>
           </div>
-          <div className="flex flex-row justify-between">
-            {pathname !== "/login" &&
-              (!pushToLoginPage ? (
-                <button
-                  className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleLogin}
-                >
-                  登入
-                </button>
-              ) : (
-                <button
-                  className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleLogout}
-                >
-                  登出
-                </button>
-              ))}
-          </div>
-        </div>
+        )}
       </div>
     </>
   );

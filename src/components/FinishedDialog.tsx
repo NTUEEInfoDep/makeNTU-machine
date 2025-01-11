@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { Separator } from "@/components/ui/Separator";
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import io from "socket.io-client";

@@ -12,8 +12,9 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { TableHead, TableRow } from "@mui/material";
+import { TableRow } from "@mui/material";
 import io from "socket.io-client";
+import { threeDPQueueListTableCells } from "@/constant/index";
 
 type indRequest = {
   id: number;
@@ -81,15 +82,6 @@ export default function ThreeDPQueueListForContestant() {
     };
   }, [requestList]);
 
-  const tableCells = [
-    "預約組別",
-    "檔案名稱",
-    "承重與否",
-    "使用材料",
-    "列印狀態",
-    "備註",
-  ];
-
   return (
     <>
       <div className="flex items-center justify-center">
@@ -106,7 +98,7 @@ export default function ThreeDPQueueListForContestant() {
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell) => (
+                {threeDPQueueListTableCells.map((cell) => (
                   <TableCell key={cell} className="font-bold text-center">
                     {cell}
                   </TableCell>
@@ -159,7 +151,6 @@ export default function ThreeDPQueueListForContestant() {
           </Table>
         </TableContainer>
       </div>
-      <div className="h-5 bg-black"></div>
     </>
   );
 }

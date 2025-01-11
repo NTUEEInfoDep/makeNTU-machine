@@ -11,8 +11,9 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { TableHead, TableRow } from "@mui/material";
+import { TableRow } from "@mui/material";
 import io from "socket.io-client";
+import { laserCutQueueListTableCells } from "@/constant/index";
 
 type indRequest = {
   id: number;
@@ -43,14 +44,7 @@ export default function LaserCutQueueList() {
   const pathname = usePathname();
   const pathTemp = pathname.split("/");
   const group = pathTemp[2];
-  const tableCells = [
-    "預約組別",
-    "檔案名稱",
-    "板材志願序",
-    "最終板材",
-    "列印狀態",
-    "備註",
-  ];
+
   const { getLaserCutRequest } = useRequest();
 
   useEffect(() => {
@@ -111,8 +105,8 @@ export default function LaserCutQueueList() {
   }, [requestList]);
 
   return (
-    <>
-      <div className="flex items-center justify-center my-5">
+    <div className="mb-2">
+      <div className="flex items-center justify-center my-4">
         <h1 className="text-3xl font-bold text-yellow-400">雷切機等候列表</h1>
       </div>
       <div className="flex w-10/12 mx-auto justify-center">
@@ -120,7 +114,7 @@ export default function LaserCutQueueList() {
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell) => (
+                {laserCutQueueListTableCells.map((cell) => (
                   <TableCell className="font-bold text-center" key={cell}>
                     {cell}
                   </TableCell>
@@ -145,7 +139,7 @@ export default function LaserCutQueueList() {
                   key={request.id}
                 >
                   <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
-                    {request.groupname}
+                    {String(request.groupname)}
                   </TableCell>
                   <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.filename}
@@ -182,7 +176,6 @@ export default function LaserCutQueueList() {
           </Table>
         </TableContainer>
       </div>
-      <div className="h-5"></div>
-    </>
+    </div>
   );
 }

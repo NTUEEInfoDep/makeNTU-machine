@@ -12,8 +12,9 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { TableHead, TableRow } from "@mui/material";
+import { TableRow } from "@mui/material";
 import io from "socket.io-client";
+import { laserCutQueueListTableCells } from "@/constant";
 
 type indRequest = {
   id: number;
@@ -105,15 +106,6 @@ export default function LaserCutQueueListForContestant() {
     };
   }, [requestList]);
 
-  const tableCells = [
-    "預約組別",
-    "檔案名稱",
-    "板材志願序",
-    "最終板材",
-    "列印狀態",
-    "備註",
-  ];
-
   return (
     <>
       <div className="flex items-center justify-center">
@@ -130,7 +122,7 @@ export default function LaserCutQueueListForContestant() {
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell) => (
+                {laserCutQueueListTableCells.map((cell) => (
                   <TableCell
                     sx={{ textAlign: "center", fontWeight: "bold" }}
                     key={cell}

@@ -11,11 +11,12 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { FormControl, TableHead, TableRow } from "@mui/material";
+import { FormControl, TableRow } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import io from "socket.io-client";
+import { laserCutQueueListForAdminTableCells } from "@/constant/index";
 
 type indRequestForAdmin = {
   id: number;
@@ -89,16 +90,6 @@ export default function LaserCutQueueListForAdmin() {
     }
   };
 
-  const tableCells = [
-    "預約組別",
-    "檔案名稱",
-    "使用機台",
-    "板材志願序",
-    "最終板材",
-    "列印狀態",
-    "備註",
-  ];
-
   return (
     <div className="w-10/12 mx-auto mb-6">
       <h1 className="text-2xl mb-2 font-semibold">申請列表</h1>
@@ -107,7 +98,7 @@ export default function LaserCutQueueListForAdmin() {
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell) => (
+                {laserCutQueueListForAdminTableCells.map((cell) => (
                   <TableCell
                     key={cell}
                     sx={{ textAlign: "center", fontWeight: "bold" }}

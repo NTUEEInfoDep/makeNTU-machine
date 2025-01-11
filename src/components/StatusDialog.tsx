@@ -14,6 +14,7 @@ export default function CommentDialog({
   onClose,
 }: CommentDialogProps) {
   const handleClick = (index: number) => {
+    console.log(`機台${index + 1}`);
     onClose();
   };
 
@@ -25,7 +26,7 @@ export default function CommentDialog({
             <p className="text-lg font-bold">分配機台</p>
           </div>
           <Separator />
-          <div className="mt-1 w-full g-4 flex items-top justify-center justify-between">
+          <div className="mt-1 w-full g-4 flex items-top justify-center">
             {Array.from({ length: 4 }).map((_, i) => (
               <button
                 key={i}

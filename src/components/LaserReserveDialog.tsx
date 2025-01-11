@@ -75,9 +75,7 @@ export default function LaserReserveDialog({
           </button>
           <button
             className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            onClick={async () =>
-              await handleSumbit(group, material, filename, comment)
-            }
+            onClick={() => handleSumbit(group, material, filename, comment)}
           >
             確定
           </button>

@@ -8,11 +8,12 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { FormControl, TableHead, TableRow } from "@mui/material";
+import { TableRow } from "@mui/material";
 import CommentDialog from "./CommentDialog";
 import { request } from "http";
 import { useRouter } from "next/navigation";
 import FinishedDialog from "./FinishedDialog";
+import { laserCutMachineListTableCells } from "@/constant/index";
 
 export type MachineListProps = {
   index: number;
@@ -61,8 +62,6 @@ export default function LaserCutMachineList({ index }: MachineListProps) {
     gReq();
   }, []);
 
-  const tableCells = ["預約組別", "檔案名稱", "最終板材", "狀態", "備註"];
-
   return (
     <>
       <div className="flex-col w-10/12 mx-auto justify-center mb-4">
@@ -71,7 +70,7 @@ export default function LaserCutMachineList({ index }: MachineListProps) {
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell, index) => (
+                {laserCutMachineListTableCells.map((cell, index) => (
                   <TableCell
                     key={index}
                     sx={{ textAlign: "center", fontWeight: "bold" }}

@@ -11,8 +11,9 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { TableHead, TableRow } from "@mui/material";
+import { TableRow } from "@mui/material";
 import io from "socket.io-client";
+import { threeDPQueueListTableCells } from "@/constant/index";
 
 type indRequest = {
   id: number;
@@ -79,31 +80,17 @@ export default function ThreeDPQueueList() {
     };
   }, [requestList]);
 
-  const tableCells = [
-    "預約組別",
-    "檔案名稱",
-    "承重與否",
-    "使用材料",
-    "列印狀態",
-    "備註",
-  ];
-
   return (
-    <>
-      <div className="h-10 m-2 flex items-center justify-center">
+    <div className="mb-2">
+      <div className="flex items-center justify-center my-4">
         <h1 className="text-3xl font-bold text-yellow-400">3DP等候列表</h1>
       </div>
-      <div className="h-3"></div>
-      <div className="flex w-full justify-center">
-        <TableContainer
-          component={Paper}
-          sx={{ width: "80%", maxHeight: "400px", overflow: "auto" }}
-        >
+      <div className="flex w-10/12 mx-auto justify-center">
+        <TableContainer component={Paper} className="rounded-b-none">
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
-            <TableHead></TableHead>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
-                {tableCells.map((cell) => (
+                {threeDPQueueListTableCells.map((cell) => (
                   <TableCell key={cell} className="font-bold text-center">
                     {cell}
                   </TableCell>
@@ -113,13 +100,12 @@ export default function ThreeDPQueueList() {
           </Table>
         </TableContainer>
       </div>
-      <div className="flex w-full justify-center">
+      <div className="flex w-10/12 mx-auto justify-center">
         <TableContainer
           component={Paper}
-          sx={{ width: "80%", maxHeight: "400px", overflow: "auto" }}
+          className="rounded-none overflow-auto max-h-96"
         >
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
-            <TableHead></TableHead>
             <TableBody>
               {requestList?.map((request) => (
                 <TableRow
@@ -128,10 +114,10 @@ export default function ThreeDPQueueList() {
                   }
                   key={request.id}
                 >
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {String(request.groupname)}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.filename}
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
@@ -140,7 +126,7 @@ export default function ThreeDPQueueList() {
                   <TableCell sx={{ textAlign: "center" }}>
                     {request.material}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     <StatusForContestant
                       id={request.id}
                       initialState={request.status}
@@ -148,8 +134,8 @@ export default function ThreeDPQueueList() {
                       type="3dp"
                     ></StatusForContestant>
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {request.comment}
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
+                    {request.comment === "" ? "無" : request.comment}
                   </TableCell>
                 </TableRow>
               ))}
@@ -157,7 +143,6 @@ export default function ThreeDPQueueList() {
           </Table>
         </TableContainer>
       </div>
-      <div className="h-5"></div>
-    </>
+    </div>
   );
 }

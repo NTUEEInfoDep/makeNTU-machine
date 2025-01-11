@@ -26,7 +26,7 @@ export default function useContestant() {
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");
     if (!token) {
-      alert("You are not logged in.");
+      alert("未登入");
       router.push("/login");
     } else {
       const decodedPayload = decodeJWT(token);
@@ -46,7 +46,7 @@ export default function useContestant() {
   }, []);
 
   return (
-    <div className="bg-black overflow-auto flex flex-col">
+    <div className="bg-background overflow-auto flex flex-col">
       <Map />
       <LaserCutQueueListForContestant />
       <ThreeDPQueueListForContestant />

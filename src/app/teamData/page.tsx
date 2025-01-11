@@ -39,7 +39,7 @@ export default function TeamData() {
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");
     if (!token) {
-      alert("You are not logged in.");
+      alert("未登入");
       router.push("/login");
     } else {
       const decodedPayload = decodeJWT(token);
@@ -110,7 +110,7 @@ export default function TeamData() {
     <LoaderSpiner />
   ) : (
     <>
-      <div className="bg-black flex flex-row justify-center gap-4 mt-4">
+      <div className="bg-background flex flex-row justify-center gap-4 mt-4">
         <div className="flex items-center justify-center">
           <button
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
