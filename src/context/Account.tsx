@@ -23,6 +23,7 @@ export type AccountResponse = {
 export type AccountContext = {
   user?: Account | null;
   pushToLoginPage: boolean;
+  userList?: Account[];
   setAccount?: (user: Account) => void;
   setPushToLoginPage: (pushToLoginPage: boolean) => void;
 };
@@ -30,6 +31,7 @@ export type AccountContext = {
 export const AccountContext = createContext<AccountContext>({
   user: null,
   pushToLoginPage: false,
+  userList: [],
   setAccount: () => {},
   setPushToLoginPage: () => {},
 });
@@ -92,6 +94,7 @@ export const AccountProvider = ({ children }: Props) => {
       value={{
         user,
         pushToLoginPage,
+        userList,
         setAccount,
         setPushToLoginPage,
       }}

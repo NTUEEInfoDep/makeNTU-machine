@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import React, { useContext } from "react";
-import { RequestContext } from "@/context/Request";
-import { AccountContext } from "@/context/Account";
+// import { useContext } from "react";
+// import { RequestContext } from "@/context/Request";
+// import { AccountContext } from "@/context/Account";
 import CommentDialog from "./CommentDialog";
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import StatusForAdmin from "@/components/StatusForAdmin";
@@ -36,8 +36,8 @@ type broadcastRequest = {
 };
 
 export default function LaserCutQueueListForAdmin() {
-  const { requests } = useContext(RequestContext);
-  const { user } = useContext(AccountContext);
+  // const { requests } = useContext(RequestContext);
+  // const { user } = useContext(AccountContext);
   const [requestList, setRequestList] = useState<indRequestForAdmin[]>();
   const {
     getLaserCutRequest,
@@ -110,11 +110,6 @@ export default function LaserCutQueueListForAdmin() {
             </TableBody>
           </Table>
         </TableContainer>
-        <CommentDialog
-          open={commentDialogOpen}
-          comment={dialogString}
-          onClose={() => setCommentDialogOpen(false)}
-        />
       </div>
       <div className="flex justify-center">
         <TableContainer
@@ -199,7 +194,7 @@ export default function LaserCutQueueListForAdmin() {
                       initialState={request.status}
                       timeStarted={request.timeleft}
                       type="laser"
-                    ></StatusForAdmin>
+                    />
                   </TableCell>
 
                   <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
@@ -210,7 +205,7 @@ export default function LaserCutQueueListForAdmin() {
                           setDialogString(request.comment);
                         }}
                       >
-                        {request.comment}
+                        {request.comment.slice(0, 13) + "..."}
                       </button>
                     ) : (
                       "無"

@@ -1,25 +1,26 @@
 "use client";
-import React, { useState, useRef, useContext, useEffect } from "react";
-import InputArea from "@/components/ui/InputArea";
+import { useState, useEffect } from "react";
+// import { useRef, useContext } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { AccountContext } from "@/context/Account";
-import { RequestContext } from "@/context/Request";
+import InputArea from "@/components/ui/InputArea";
+// import { AccountContext } from "@/context/Account";
+// import { RequestContext } from "@/context/Request";
 import { Checkbox } from "@mui/material";
 import ThreeDPReserveDialog from "@/components/ThreeDPReserveDialog";
 
 export default function useReserve() {
-  const { user } = useContext(AccountContext);
-  const { sendRequest } = useContext(RequestContext);
+  // const { user } = useContext(AccountContext);
+  // const { sendRequest } = useContext(RequestContext);
   const router = useRouter();
   const pathname = usePathname();
-  const secretkey: string = process.env.PASSWORD_SECRET
-    ? process.env.PASSWORD_SECRET
-    : "Secret";
+  // const secretkey: string = process.env.PASSWORD_SECRET
+  //   ? process.env.PASSWORD_SECRET
+  //   : "Secret";
   const [filename, setFilename] = useState("");
   const [comment, setComment] = useState("");
   const [falseTitle, setFalseTitle] = useState(false);
   const [tooLong, setTooLong] = useState(false);
-  const [NoteTooLong, setNoteTooLong] = useState(false);
+  const [noteTooLong, setNoteTooLong] = useState(false);
   const [loadBearing, setLoadBearing] = useState(false);
   const [open, setOpen] = useState(false);
   const pathTemp = pathname.split("/");
@@ -69,7 +70,7 @@ export default function useReserve() {
     } else {
       setTooLong(false);
     }
-    if (comment.length > 60) {
+    if (comment.length > 30) {
       setNoteTooLong(true);
       return;
     }
@@ -78,78 +79,74 @@ export default function useReserve() {
   };
 
   return (
-    <div className="text-lg flex flex-col items-center justify-center bg-background text-white h-full">
-      <p className="font-bold text-3xl">3DP使用登記</p>
-      <p className="text-center text-xl">隊伍編號：{pathTemp[2]}</p>
-      <div className="m-3 mb-0.5 w-2/5 flex items-center gap-2">
-        <p className="font-bold w-1/4 text-right">檔案名稱：</p>
-        <InputArea
-          placeHolder="file name"
-          editable={true}
-          value={filename}
-          onChange={(e) => setFilename(e)}
-        />
-      </div>
-
-      <div className="flex items-end w-2/6 h-5">
-        {falseTitle && (
-          <p className="ml-20 w-3/4 pl-5 text-sm text-red-500">
-            請輸入檔案名稱
-          </p>
-        )}
-        {tooLong && (
-          <p className="ml-20 w-3/4 pl-5 text-sm text-red-500">
-            檔案名稱不可超過15字
-          </p>
-        )}
-      </div>
-
-      <div className="m-3 mb-0.5 w-2/6 flex items-center gap-2">
-        <p className="font-bold flex-end w-1/7 text-right">
-          使用材料：&nbsp; PLA &nbsp;&nbsp;&nbsp;
-        </p>
-        <div className="flex items-center">
-          <Checkbox
-            style={{ color: "yellow" }}
-            onClick={() => setLoadBearing((prev) => !prev)}
-          ></Checkbox>
-          <p>需要承重</p>
-        </div>
-      </div>
-
-      <div className="h-5"></div>
-      <div className="m-3 mb-0.5 w-2/5 flex gap-2">
-        <p className="font-bold w-1/4 text-right">備註：</p>
-        <textarea
-          className="resize-none w-full p-2 border-2 bg-black text-white text-base border-blue-500 focus:border-blue-300 focus:border-4 focus:outline-none"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-      </div>
-
-      <div className="flex items-end w-2/6 h-5">
-        {NoteTooLong && (
-          <p className="ml-20 w-5/6 pl-5 text-sm text-red-500">
-            備註不可超過60字
-          </p>
-        )}
-      </div>
-
-      <div className="p-2 flex gap-2">
-        <button
-          className="m-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => router.push(`/contestant/${pathTemp[2]}`)}
-        >
-          取消
-        </button>
+    <div className="flex flex-col w-6/12 mx-auto px-6 py-5 border rounded-lg my-6 bg-black border-[#444444]">
+      <p className="text-4xl font-semibold">3DP使用登記</p>
+      <ul className="list-disc px-2 ml-2 pt-3 flex flex-col gap-1">
+        <li className="text-lg">隊伍編號：{pathTemp[2]}</li>
+        <li>
+          <div className="flex flex-row gap-2 items-center">
+            <p className="text-lg text-white">使用材料：PLA</p>
+            <div className="flex items-center">
+              <Checkbox
+                style={{ color: "yellow" }}
+                onClick={() => setLoadBearing((prev) => !prev)}
+              />
+              <p>需要承重</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div className="flex flex-col w-full gap-1">
+            <p className="text-white text-lg">
+              檔案名稱<span className="text-red-500">*</span>
+            </p>
+            <InputArea
+              placeHolder="Filename"
+              editable={true}
+              value={filename}
+              onChange={(e) => setFilename(e)}
+            />
+            <div className="flex flex-col ml-2">
+              {falseTitle && (
+                <p className="text-sm text-red-500">請輸入檔案名稱！</p>
+              )}
+              {tooLong && (
+                <p className="text-sm text-red-500">檔案名稱不可超過15字！</p>
+              )}
+            </div>
+          </div>
+        </li>
+        <li>
+          <div className="flex flex-col gap-1">
+            <p className="text-white text-lg">備註 ({comment.length}/30)</p>
+            <textarea
+              className="w-full bg-[#15171C] border-none text-white text-[16px] leading-normal placeholder:text-[16px] px-3 py-2 rounded-lg placeholder:text-[#71788B] hover:ring-blue-400 hover:ring-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-0"
+              value={comment}
+              placeholder="Note"
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <div className="flex flex-col ml-2">
+              {comment.length > 30 && (
+                <p className="text-sm text-red-500">備註不可超過30字</p>
+              )}
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div className="mt-2 flex flex-row-reverse gap-1">
         <button
           className="m-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleSubmit}
         >
           登記
         </button>
+        <button
+          className="m-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => router.push(`/contestant/${pathTemp[2]}`)}
+        >
+          取消
+        </button>
       </div>
-      <div className="h-screen"></div>
       <ThreeDPReserveDialog
         open={open}
         group={pathTemp[2]}

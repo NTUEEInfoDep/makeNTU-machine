@@ -46,7 +46,7 @@ export default function useContestant() {
   }, []);
 
   return (
-    <div className="bg-background overflow-auto flex flex-col">
+    <div className="bg-background overflow-auto flex flex-col mb-4">
       <Map />
       <LaserCutQueueListForContestant />
       <ThreeDPQueueListForContestant />

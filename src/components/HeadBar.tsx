@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAccountContext } from "@/context/Account";
 
@@ -31,9 +31,11 @@ export default function HeadBar() {
     setLoading(true);
     setPushToLoginPage(true);
     router.push("/login");
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+    if (pathname === "/") {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   const handleLogout = () => {
@@ -75,9 +77,17 @@ export default function HeadBar() {
   return (
     <>
       <div className="bg-slate-900 py-4 px-4 flex flex-row justify-between gap-2 items-center">
-        <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-white">
-          MakeNTU 機台借用申請網站
-        </h1>
+        <div className="flex flex-row items-center gap-1">
+          <img
+            data-testid="header-logo"
+            className="w-12 h-12 rounded-full"
+            src="/logo-2024.png"
+            alt="logo-2024"
+          />
+          <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-white">
+            MakeNTU 機台借用申請網站
+          </h1>
+        </div>
         {!loading && (
           <div className="flex flex-row items-center gap-2">
             <div className="flex text-center mx-2">

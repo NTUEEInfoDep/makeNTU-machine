@@ -12,9 +12,9 @@ export default function useAdmin() {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("laser");
   const [loading, setLoading] = useState(false);
-  const secretkey: string = process.env.PASSWORD_SECRET
-    ? process.env.PASSWORD_SECRET
-    : "Secret";
+  // const secretkey: string = process.env.PASSWORD_SECRET
+  //   ? process.env.PASSWORD_SECRET
+  //   : "Secret";
 
   function decodeJWT(token: string): Record<string, any> | null {
     const parts = token.split(".");
@@ -47,10 +47,6 @@ export default function useAdmin() {
     }
   }, []);
 
-  const handleRefresh = () => {
-    window.location.reload();
-  };
-
   const handleSwitchTab = (tab: string) => {
     setActiveTab(tab);
   };
@@ -70,12 +66,6 @@ export default function useAdmin() {
       <div className="flex items-center justify-center gap-2.5 my-4">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded font-semibold"
-          onClick={handleRefresh}
-        >
-          重新整理
-        </button>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded font-semibold"
           onClick={handlePushToTeamData}
         >
           管理使用者
@@ -83,13 +73,13 @@ export default function useAdmin() {
       </div>
       <div className="flex justify-center mb-4">
         <div
-          className={`px-12 xs:px-12 sm:px-16 md:px-24 lg:px-32 xl:px-44 py-2.5 ${activeTab === "laser" ? "bg-yellow-400 text-white" : "bg-gray-300 text-black"} rounded-l-lg text-lg xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl cursor-pointer font-bold`}
+          className={`px-12 xs:px-12 sm:px-16 md:px-24 lg:px-32 xl:px-44 py-2.5 ${activeTab === "laser" ? "bg-yellow-400 text-white" : "bg-gray-700 text-black"} rounded-l-lg text-lg xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl cursor-pointer font-bold`}
           onClick={() => handleSwitchTab("laser")}
         >
           雷切使用申請
         </div>
         <div
-          className={`px-12 xs:px-12 sm:px-16 md:px-24 lg:px-32 xl:px-44 py-2.5 ${activeTab === "3dp" ? "bg-yellow-400 text-white" : "bg-gray-300 text-black"} rounded-r-lg text-lg xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl cursor-pointer font-bold`}
+          className={`px-12 xs:px-12 sm:px-16 md:px-24 lg:px-32 xl:px-44 py-2.5 ${activeTab === "3dp" ? "bg-yellow-400 text-white" : "bg-gray-700 text-black"} rounded-r-lg text-lg xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl cursor-pointer font-bold`}
           onClick={() => handleSwitchTab("3dp")}
         >
           3DP使用申請

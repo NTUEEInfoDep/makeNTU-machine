@@ -1,12 +1,12 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { RequestContext } from "@/context/Request";
-import { AccountContext } from "@/context/Account";
+import { useEffect, useState } from "react";
+// import { useContext } from "react";
+// import { RequestContext } from "@/context/Request";
+// import { AccountContext } from "@/context/Account";
 import StatusForContestant from "./StatusForContestant";
 import useRequest from "@/hooks/useLaserCutRequest";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -15,6 +15,7 @@ import TableCell from "@mui/material/TableCell";
 import { TableRow } from "@mui/material";
 import io from "socket.io-client";
 import { laserCutQueueListTableCells } from "@/constant";
+import CommentDialog from "./CommentDialog";
 
 type indRequest = {
   id: number;
@@ -39,13 +40,15 @@ type broadcastMaterialRequest = {
 };
 
 export default function LaserCutQueueListForContestant() {
-  const { requests, setRequests } = useContext(RequestContext);
+  // const { requests, setRequests } = useContext(RequestContext);
+  // const { user } = useContext(AccountContext);
   const router = useRouter();
-  const { user } = useContext(AccountContext);
   const [requestList, setRequestList] = useState<indRequest[]>();
   const pathname = usePathname();
   const pathTemp = pathname.split("/");
   const group = pathTemp[2];
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [dialogString, setDialogString] = useState("");
 
   const { getLaserCutRequest } = useRequest();
 
@@ -177,18 +180,33 @@ export default function LaserCutQueueListForContestant() {
                       initialState={request.status}
                       timeStarted={request.timeleft}
                       type="laser"
-                    ></StatusForContestant>
+                    />
                   </TableCell>
                   <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
-                    {request.comment === "" ? "無" : request.comment}
+                    {request.comment ? (
+                      <button
+                        onClick={() => {
+                          setCommentDialogOpen(true);
+                          setDialogString(request.comment);
+                        }}
+                      >
+                        {request.comment.slice(0, 13) + "..."}
+                      </button>
+                    ) : (
+                      "無"
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <CommentDialog
+          open={commentDialogOpen}
+          comment={dialogString}
+          onClose={() => setCommentDialogOpen(false)}
+        />
       </div>
-      <div className="h-5"></div>
     </>
   );
 }

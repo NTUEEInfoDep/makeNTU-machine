@@ -1,7 +1,8 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
-import RequestCardForMachine from "./RequestCardForMachine";
-import { RequestContext } from "@/context/Request";
+import { useState, useEffect } from "react";
+// import { useContext } from "react";
+// import RequestCardForMachine from "./RequestCardForMachine";
+// import { RequestContext } from "@/context/Request";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -10,8 +11,8 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import { TableRow } from "@mui/material";
 import CommentDialog from "./CommentDialog";
-import { request } from "http";
-import { useRouter } from "next/navigation";
+// import { request } from "http";
+// import { useRouter } from "next/navigation";
 import FinishedDialog from "./FinishedDialog";
 import { threeDPMachineListTableCells } from "@/constant/index";
 
@@ -30,8 +31,8 @@ export type indRequestForMachine = {
 };
 
 export default function ThreeDPMachineList({ index }: MachineListProps) {
-  const { requests } = useContext(RequestContext);
-  const router = useRouter();
+  // const { requests } = useContext(RequestContext);
+  // const router = useRouter();
   const { getThreeDPRequest, putThreeDPRequestStatus } = useThreeDPRequest();
 
   const [requestList, setRequestList] = useState<indRequestForMachine[]>();
@@ -76,18 +77,6 @@ export default function ThreeDPMachineList({ index }: MachineListProps) {
             </TableBody>
           </Table>
         </TableContainer>
-        <CommentDialog
-          open={commentDialogOpen}
-          comment={dialogString}
-          onClose={() => setCommentDialogOpen(false)}
-        />
-        <FinishedDialog
-          open={dialogOpen}
-          groupName={name}
-          id={groupID}
-          onClose={() => setDialogOpen(false)}
-          type="3dp"
-        />
         <TableContainer
           component={Paper}
           className="rounded-none overflow-auto max-h-96"
@@ -127,7 +116,7 @@ export default function ThreeDPMachineList({ index }: MachineListProps) {
                             setDialogString(request.comment);
                           }}
                         >
-                          {request.comment}
+                          {request.comment.slice(0, 13) + "..."}
                         </button>
                       ) : (
                         "無"

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import { env } from "../../../utils/env";
+// import bcrypt from "bcrypt";
+import { env } from "@/utils/env";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -42,10 +42,7 @@ export async function POST(req: NextRequest) {
       }
     } catch (error) {
       console.log("error: ", error);
-      return NextResponse.json(
-        { error: "Something went wrong" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "發生了一些錯誤" }, { status: 500 });
     }
   } else if (login) {
     try {
@@ -73,13 +70,10 @@ export async function POST(req: NextRequest) {
         }
       }
     } catch (error) {
-      return NextResponse.json(
-        { error: "Log in failed due to incorrect information" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "伺服器內部問題" }, { status: 500 });
     }
   } else {
-    console.log("idk how this could happen");
+    console.log("我不知道為什麼");
     return;
   }
 }
@@ -97,10 +91,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
     console.log("error: ", error);
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "發生了一些錯誤" }, { status: 500 });
   }
 }
 
@@ -114,9 +105,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ message: "OK" }, { status: 200 });
   } catch (error) {
     console.log("error: ", error);
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "發生了一些錯誤" }, { status: 500 });
   }
 }

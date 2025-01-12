@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import React, { useContext } from "react";
-import { RequestContext } from "@/context/Request";
-import { AccountContext } from "@/context/Account";
+// import { useContext } from "react";
+// import { RequestContext } from "@/context/Request";
+// import { AccountContext } from "@/context/Account";
 // import RequestCardForAdmin from "./RequestCardForAdmin";
 import CommentDialog from "./CommentDialog";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
@@ -31,8 +31,8 @@ type indRequestForAdmin = {
 };
 
 export default function ThreeDPQueueListForAdmin() {
-  const { requests } = useContext(RequestContext);
-  const { user } = useContext(AccountContext);
+  // const { requests } = useContext(RequestContext);
+  // const { user } = useContext(AccountContext);
   const [requestList, setRequestList] = useState<indRequestForAdmin[]>();
   const {
     getThreeDPRequest,
@@ -45,7 +45,6 @@ export default function ThreeDPQueueListForAdmin() {
     comment: "test1",
     status: "waiting",
   };
-  const Button = require("@mui/material/Button").default;
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [dialogString, setDialogString] = useState("");
 
@@ -101,10 +100,10 @@ export default function ThreeDPQueueListForAdmin() {
             <TableBody>
               {requestList?.map((request) => (
                 <TableRow key={request.id}>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {String(request.groupname)}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.filename}
                   </TableCell>
 
@@ -114,8 +113,6 @@ export default function ThreeDPQueueListForAdmin() {
                         機台編號
                       </InputLabel>
                       <Select
-                        // labelId="demo-simple-select-label"
-                        // id="demo-simple-select"
                         defaultValue={String(request.machine)}
                         label="機台編號"
                         onChange={(e) => {
@@ -134,23 +131,23 @@ export default function ThreeDPQueueListForAdmin() {
                     </FormControl>
                   </TableCell>
 
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.loadBearing ? "是" : "否"}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.material}
                   </TableCell>
 
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     <StatusForAdmin
                       id={request.id}
                       initialState={request.status}
                       timeStarted={request.timeleft}
                       type="3dp"
-                    ></StatusForAdmin>
+                    />
                   </TableCell>
 
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.comment ? (
                       <button
                         onClick={() => {
@@ -158,7 +155,7 @@ export default function ThreeDPQueueListForAdmin() {
                           setDialogString(request.comment);
                         }}
                       >
-                        {request.comment}
+                        {request.comment.slice(0, 13) + "..."}
                       </button>
                     ) : (
                       "無"
@@ -169,12 +166,12 @@ export default function ThreeDPQueueListForAdmin() {
             </TableBody>
           </Table>
         </TableContainer>
+        <CommentDialog
+          open={commentDialogOpen}
+          comment={dialogString}
+          onClose={() => setCommentDialogOpen(false)}
+        />
       </div>
-      <CommentDialog
-        open={commentDialogOpen}
-        comment={dialogString}
-        onClose={() => setCommentDialogOpen(false)}
-      />
     </div>
   );
 }

@@ -1,16 +1,18 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import InputArea from "@/components/ui/InputArea";
 import useAccount from "@/hooks/useAccount";
 import { useAccountContext } from "@/context/Account";
 import LoaderSpiner from "@/components/LoaderSpinner";
+import { usePathname } from "next/navigation";
 
 export default function Login() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [permission, setPermission] = useState("");
@@ -65,10 +67,11 @@ export default function Login() {
       } else {
         router.push(`/contestant/${username}`);
       }
-      if (user)
+      if (user && pathname !== "/login") {
         setTimeout(() => {
           setLoading(false);
         }, 2500);
+      }
     } catch (error) {
       setUsername("");
       setPassword("");
@@ -102,10 +105,10 @@ export default function Login() {
     <LoaderSpiner />
   ) : (
     <div className="flex flex-col gap-1.5 w-4/12 mx-auto px-6 py-5 border rounded-lg mt-16 bg-black border-[#444444]">
-      <div className="flex flex-row items-center dark:text-white gap-1">
+      <div className="flex flex-row items-center gap-1">
         <img
           data-testid="header-logo"
-          className="w-20 h-20 bg-black rounded-full"
+          className="w-20 h-20 rounded-full"
           src="/logo-2024.png"
           alt="logo-2024"
         />

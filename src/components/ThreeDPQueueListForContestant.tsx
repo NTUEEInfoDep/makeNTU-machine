@@ -1,12 +1,12 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { RequestContext } from "@/context/Request";
-import { AccountContext } from "@/context/Account";
+import { useEffect, useState } from "react";
+// import { useContext } from "react";
+// import { RequestContext } from "@/context/Request";
+// import { AccountContext } from "@/context/Account";
 import StatusForContestant from "./StatusForContestant";
 import useRequest from "@/hooks/useThreeDPRequest";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -15,6 +15,7 @@ import TableCell from "@mui/material/TableCell";
 import { TableRow } from "@mui/material";
 import io from "socket.io-client";
 import { threeDPQueueListTableCells } from "@/constant/index";
+import CommentDialog from "./CommentDialog";
 
 type indRequest = {
   id: number;
@@ -34,13 +35,15 @@ type broadcastRequest = {
 };
 
 export default function ThreeDPQueueListForContestant() {
-  const { requests, setRequests } = useContext(RequestContext);
+  // const { requests, setRequests } = useContext(RequestContext);
+  // const { user } = useContext(AccountContext);
   const router = useRouter();
-  const { user } = useContext(AccountContext);
   const [requestList, setRequestList] = useState<indRequest[]>();
   const pathname = usePathname();
   const pathTemp = pathname.split("/");
   const group = pathTemp[2];
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [dialogString, setDialogString] = useState("");
 
   const { getThreeDPRequest } = useRequest();
 
@@ -94,7 +97,7 @@ export default function ThreeDPQueueListForContestant() {
         </button>
       </div>
       <div className="flex w-10/12 mx-auto justify-center">
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} className="rounded-b-none">
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               <TableRow key="head" className="bg-yellow-300">
@@ -118,38 +121,54 @@ export default function ThreeDPQueueListForContestant() {
               {requestList?.map((request) => (
                 <TableRow
                   className={
-                    String(request.groupname) === group ? "bg-yellow-100" : ""
+                    String(request.groupname) === group ? "bg-white" : ""
                   }
                   key={request.id}
                 >
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {String(request.groupname)}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.filename}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.loadBearing ? "是" : "否"}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {request.material}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     <StatusForContestant
                       id={request.id}
                       initialState={request.status}
                       timeStarted={request.timeleft}
                       type="3dp"
-                    ></StatusForContestant>
+                    />
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {request.comment}
+                  <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
+                    {request.comment ? (
+                      <button
+                        onClick={() => {
+                          setCommentDialogOpen(true);
+                          setDialogString(request.comment);
+                        }}
+                      >
+                        {request.comment.slice(0, 13) + "..."}
+                      </button>
+                    ) : (
+                      "無"
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <CommentDialog
+          open={commentDialogOpen}
+          comment={dialogString}
+          onClose={() => setCommentDialogOpen(false)}
+        />
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import useAccount from "@/hooks/useAccount";
 import Papa from "papaparse";
 import LoaderSpiner from "@/components/LoaderSpinner";
-
+import { useAccountContext } from "@/context/Account";
 type userData = {
   id: string;
   name: string;
@@ -22,6 +22,7 @@ type dbUserData = {
 
 export default function TeamData() {
   const router = useRouter();
+  const { userList } = useAccountContext();
   const { createAccount, getAccountbyToken, deleteUsers } = useAccount();
   const [username, setUsername] = useState("");
   const [msg, setMsg] = useState("");
@@ -110,7 +111,27 @@ export default function TeamData() {
     <LoaderSpiner />
   ) : (
     <>
-      <div className="bg-background flex flex-row justify-center gap-4 mt-4">
+      <div className="flex flex-col gap-2 justify-center items-center mt-2">
+        <h1 className="text-2xl text-white">使用者列表</h1>
+        <table className="table-auto text-white">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2">權限</th>
+              <th className="border px-4 py-2">名稱</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userList &&
+              userList.map((user) => (
+                <tr key={user.name}>
+                  <td className="border px-4 py-2">{user.permission}</td>
+                  <td className="border px-4 py-2">{user.name}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex flex-row justify-center gap-4 mt-4">
         <div className="flex items-center justify-center">
           <button
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
