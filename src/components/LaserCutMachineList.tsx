@@ -14,22 +14,9 @@ import { TableRow } from "@mui/material";
 import CommentDialog from "./CommentDialog";
 import FinishedDialog from "./FinishedDialog";
 import { laserCutMachineListTableCells } from "@/constant/index";
+import type { MachineListProps, indRequestForLaserCut } from "@/shared/types";
 
-export type MachineListProps = {
-  index: number;
-};
-
-export type indRequestForMachine = {
-  id: number;
-  groupname: number;
-  machine: number;
-  filename: string;
-  finalMaterial: string;
-  status: string;
-  comment: string;
-};
-
-export default function LaserCutMachineList({ index }: MachineListProps) {
+function LaserCutMachineList({ index }: MachineListProps) {
   // const { requests } = useContext(RequestContext);
   const {
     getLaserCutRequest,
@@ -38,7 +25,7 @@ export default function LaserCutMachineList({ index }: MachineListProps) {
     putLaserCutRequestStatus,
   } = useLaserCutRequest();
 
-  const [requestList, setRequestList] = useState<indRequestForMachine[]>();
+  const [requestList, setRequestList] = useState<indRequestForLaserCut[]>();
 
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -50,7 +37,7 @@ export default function LaserCutMachineList({ index }: MachineListProps) {
     const gReq = async () => {
       try {
         const requestListInit = await getLaserCutRequest();
-        const requestListJson: indRequestForMachine[] =
+        const requestListJson: indRequestForLaserCut[] =
           requestListInit["dbresultReq"];
         setRequestList(requestListJson);
       } catch (e) {
@@ -154,3 +141,5 @@ export default function LaserCutMachineList({ index }: MachineListProps) {
     </>
   );
 }
+
+export default LaserCutMachineList;

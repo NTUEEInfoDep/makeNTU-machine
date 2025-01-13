@@ -17,23 +17,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { threeDPQueueListForAdminTableCells } from "@/constant/index";
+import type { indRequestForThreeDPQueueForAdmin } from "@/shared/types";
 
-type indRequestForAdmin = {
-  id: number;
-  groupname: number;
-  machine: number;
-  loadBearing: boolean;
-  filename: string;
-  material: string[];
-  status: string;
-  comment: string;
-  timeleft: Date;
-};
-
-export default function ThreeDPQueueListForAdmin() {
+function ThreeDPQueueListForAdmin() {
   // const { requests } = useContext(RequestContext);
   // const { user } = useContext(AccountContext);
-  const [requestList, setRequestList] = useState<indRequestForAdmin[]>();
+  const [requestList, setRequestList] =
+    useState<indRequestForThreeDPQueueForAdmin[]>();
   const {
     getThreeDPRequest,
     putThreeDPRequestMachine,
@@ -52,7 +42,7 @@ export default function ThreeDPQueueListForAdmin() {
     const gReq = async () => {
       try {
         const requestListInit = await getThreeDPRequest();
-        const requestListJson: indRequestForAdmin[] =
+        const requestListJson: indRequestForThreeDPQueueForAdmin[] =
           requestListInit["dbresultReq"];
         setRequestList(requestListJson);
       } catch (e) {
@@ -175,3 +165,5 @@ export default function ThreeDPQueueListForAdmin() {
     </div>
   );
 }
+
+export default ThreeDPQueueListForAdmin;

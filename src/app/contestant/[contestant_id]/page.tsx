@@ -6,7 +6,7 @@ import ThreeDPQueueListForContestant from "@/components/ThreeDPQueueListForConte
 import Map from "@/components/Map";
 // import { env } from "../../../utils/env";
 
-export default function useContestant() {
+function useContestant() {
   const router = useRouter();
   const pathname = usePathname();
   // const secretkey: string = process.env.PASSWORD_SECRET
@@ -53,3 +53,5 @@ export default function useContestant() {
     </div>
   );
 }
+
+export default useContestant;

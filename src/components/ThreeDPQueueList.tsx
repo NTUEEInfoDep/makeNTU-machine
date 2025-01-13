@@ -15,28 +15,15 @@ import { TableRow } from "@mui/material";
 import io from "socket.io-client";
 import { threeDPQueueListTableCells } from "@/constant/index";
 import CommentDialog from "./CommentDialog";
+import type {
+  indRequestForThreeDPQueue,
+  broadcastStatusRequest,
+} from "@/shared/types";
 
-type indRequest = {
-  id: number;
-  groupname: number;
-  filename: string;
-  loadBearing: boolean;
-  material: string[];
-  status: string;
-  comment: string;
-  timeleft: Date;
-};
-
-type broadcastRequest = {
-  id: number;
-  status: string;
-  timeCreated: Date;
-};
-
-export default function ThreeDPQueueList() {
+function ThreeDPQueueList() {
   // const { requests, setRequests } = useContext(RequestContext);
   // const { user } = useContext(AccountContext);
-  const [requestList, setRequestList] = useState<indRequest[]>();
+  const [requestList, setRequestList] = useState<indRequestForThreeDPQueue[]>();
   const pathname = usePathname();
   const pathTemp = pathname.split("/");
   const group = pathTemp[2];
@@ -49,7 +36,8 @@ export default function ThreeDPQueueList() {
     const gReq = async () => {
       try {
         const requestListInit = await getThreeDPRequest();
-        const requestListJson: indRequest[] = requestListInit["dbresultReq"];
+        const requestListJson: indRequestForThreeDPQueue[] =
+          requestListInit["dbresultReq"];
         setRequestList(requestListJson);
       } catch (e) {
         console.log(e);
@@ -61,7 +49,7 @@ export default function ThreeDPQueueList() {
   useEffect(() => {
     const socket = io();
 
-    socket.on("threeDPQueue", (threeDPQueue: broadcastRequest) => {
+    socket.on("threeDPQueue", (threeDPQueue: broadcastStatusRequest) => {
       if (requestList) {
         const updatedRequestList = requestList.map((request) => {
           if (request.id === threeDPQueue.id) {
@@ -165,3 +153,5 @@ export default function ThreeDPQueueList() {
     </div>
   );
 }
+
+export default ThreeDPQueueList;

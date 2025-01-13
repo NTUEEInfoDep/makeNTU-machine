@@ -8,7 +8,7 @@ import InputArea from "@/components/ui/InputArea";
 import { Checkbox } from "@mui/material";
 import ThreeDPReserveDialog from "@/components/ThreeDPReserveDialog";
 
-export default function useReserve() {
+function useReserve() {
   // const { user } = useContext(AccountContext);
   // const { sendRequest } = useContext(RequestContext);
   const router = useRouter();
@@ -159,3 +159,5 @@ export default function useReserve() {
     </div>
   );
 }
+
+export default useReserve;

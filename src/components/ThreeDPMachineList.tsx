@@ -15,27 +15,14 @@ import CommentDialog from "./CommentDialog";
 // import { useRouter } from "next/navigation";
 import FinishedDialog from "./FinishedDialog";
 import { threeDPMachineListTableCells } from "@/constant/index";
+import type { MachineListProps, indRequestForThreeDP } from "@/shared/types";
 
-export type MachineListProps = {
-  index: number;
-};
-
-export type indRequestForMachine = {
-  id: number;
-  groupname: number;
-  machine: number;
-  loadBearing: boolean;
-  filename: string;
-  status: string;
-  comment: string;
-};
-
-export default function ThreeDPMachineList({ index }: MachineListProps) {
+function ThreeDPMachineList({ index }: MachineListProps) {
   // const { requests } = useContext(RequestContext);
   // const router = useRouter();
   const { getThreeDPRequest, putThreeDPRequestStatus } = useThreeDPRequest();
 
-  const [requestList, setRequestList] = useState<indRequestForMachine[]>();
+  const [requestList, setRequestList] = useState<indRequestForThreeDP[]>();
 
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -47,7 +34,7 @@ export default function ThreeDPMachineList({ index }: MachineListProps) {
     const gReq = async () => {
       try {
         const requestListInit = await getThreeDPRequest();
-        const requestListJson: indRequestForMachine[] =
+        const requestListJson: indRequestForThreeDP[] =
           requestListInit["dbresultReq"];
         setRequestList(requestListJson);
       } catch (e) {
@@ -146,3 +133,5 @@ export default function ThreeDPMachineList({ index }: MachineListProps) {
     </>
   );
 }
+
+export default ThreeDPMachineList;

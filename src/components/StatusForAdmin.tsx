@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
@@ -7,21 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { setFips } from "crypto";
+// import { setFips } from "crypto";
 import io from "socket.io-client";
-
-type StatusProps = {
-  id: number;
-  initialState: string;
-  timeStarted: Date;
-  type: string;
-};
-
-type indRequestForStatus = {
-  id: number;
-  timeleft: Date;
-  status: string;
-};
+import type { StatusProps, indRequestForStatus } from "@/shared/types";
 
 type broadcastRequest = {
   id: number;
@@ -29,12 +18,7 @@ type broadcastRequest = {
   timeCreated: Date;
 };
 
-export default function Status({
-  id,
-  initialState,
-  timeStarted,
-  type,
-}: StatusProps) {
+function Status({ id, initialState, timeStarted, type }: StatusProps) {
   const router = useRouter();
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   const statusArray = ["等待確認", "等待檔案", "過號", "製作中", "已完成"];
@@ -217,3 +201,5 @@ export default function Status({
     </>
   );
 }
+
+export default Status;

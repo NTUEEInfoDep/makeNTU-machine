@@ -1,8 +1,8 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import type { Account } from "@/context/Account";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+// import { useState } from "react";
+// import type { Account } from "@/context/Account";
+// import { PrismaClient } from "@prisma/client";
+// const prisma = new PrismaClient();
 
 export default function useAccount() {
   const router = useRouter();

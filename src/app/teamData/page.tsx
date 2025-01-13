@@ -6,21 +6,9 @@ import useAccount from "@/hooks/useAccount";
 import Papa from "papaparse";
 import LoaderSpiner from "@/components/LoaderSpinner";
 import { useAccountContext } from "@/context/Account";
-type userData = {
-  id: string;
-  name: string;
-  authority: string;
-  password: string;
-};
+import type { userDataType, dbUserDataType } from "@/shared/types";
 
-type dbUserData = {
-  id: number;
-  name: string;
-  permission: string;
-  password: string;
-};
-
-export default function TeamData() {
+function TeamData() {
   const router = useRouter();
   const { userList } = useAccountContext();
   const { createAccount, getAccountbyToken, deleteUsers } = useAccount();
@@ -60,11 +48,11 @@ export default function TeamData() {
       skipEmptyLines: true,
       header: true,
       complete: async function (results) {
-        const result: userData[] = results.data as userData[];
+        const result = results.data as userDataType[];
         try {
           const db = await getAccountbyToken();
-          const dbData: dbUserData[] = db.user;
-          result.map(async (dat: userData) => {
+          const dbData: dbUserDataType[] = db.user;
+          result.map(async (dat: userDataType) => {
             let auth: string = "contestant";
             if (dat.authority === "1") {
               auth = "admin";
@@ -164,3 +152,5 @@ export default function TeamData() {
     </>
   );
 }
+
+export default TeamData;

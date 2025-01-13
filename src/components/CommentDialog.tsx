@@ -1,17 +1,8 @@
 import { Dialog, DialogContent } from "@mui/material";
 import { Separator } from "@/components/ui/Separator";
+import type { CommentDialogProps } from "@/shared/types";
 
-export type CommentDialogProps = {
-  open: boolean;
-  comment: string;
-  onClose: () => void;
-};
-
-export default function CommentDialog({
-  open,
-  comment,
-  onClose,
-}: CommentDialogProps) {
+function CommentDialog({ open, comment, onClose }: CommentDialogProps) {
   return (
     <>
       <Dialog open={open} onClose={onClose}>
@@ -30,3 +21,5 @@ export default function CommentDialog({
     </>
   );
 }
+
+export default CommentDialog;

@@ -16,34 +16,18 @@ import { TableRow } from "@mui/material";
 import io from "socket.io-client";
 import { laserCutQueueListTableCells } from "@/constant";
 import CommentDialog from "./CommentDialog";
+import type {
+  indRequestForLaserCutQueue,
+  broadcastStatusRequest,
+  broadcastMaterialRequest,
+} from "@/shared/types";
 
-type indRequest = {
-  id: number;
-  groupname: number;
-  filename: string;
-  material: string[];
-  finalMaterial: string;
-  status: string;
-  comment: string;
-  timeleft: Date;
-};
-
-type broadcastStatusRequest = {
-  id: number;
-  status: string;
-  timeCreated: Date;
-};
-
-type broadcastMaterialRequest = {
-  id: number;
-  finalMaterial: string;
-};
-
-export default function LaserCutQueueListForContestant() {
+function LaserCutQueueListForContestant() {
   // const { requests, setRequests } = useContext(RequestContext);
   // const { user } = useContext(AccountContext);
   const router = useRouter();
-  const [requestList, setRequestList] = useState<indRequest[]>();
+  const [requestList, setRequestList] =
+    useState<indRequestForLaserCutQueue[]>();
   const pathname = usePathname();
   const pathTemp = pathname.split("/");
   const group = pathTemp[2];
@@ -56,7 +40,8 @@ export default function LaserCutQueueListForContestant() {
     const gReq = async () => {
       try {
         const requestListInit = await getLaserCutRequest();
-        const requestListJson: indRequest[] = requestListInit["dbresultReq"];
+        const requestListJson: indRequestForLaserCutQueue[] =
+          requestListInit["dbresultReq"];
         setRequestList(requestListJson);
       } catch (e) {
         console.log(e);
@@ -210,3 +195,5 @@ export default function LaserCutQueueListForContestant() {
     </>
   );
 }
+
+export default LaserCutQueueListForContestant;

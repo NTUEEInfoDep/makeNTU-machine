@@ -10,7 +10,7 @@ import { Checkbox } from "@mui/material";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import LaserReserveDialog from "@/components/LaserReserveDialog";
 
-export default function useReserve() {
+function useReserve() {
   // const { user } = useContext(AccountContext);
   // const { sendRequest } = useContext(RequestContext);
   const router = useRouter();
@@ -245,3 +245,5 @@ export default function useReserve() {
     </div>
   );
 }
+
+export default useReserve;

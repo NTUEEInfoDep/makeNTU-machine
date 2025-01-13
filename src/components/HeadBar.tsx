@@ -1,14 +1,11 @@
 "use client";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+// import { useContext } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAccountContext } from "@/context/Account";
+// import type { AccountType } from "@/shared/types";
 
-export type Account = {
-  username: string;
-  permission: string;
-};
-
-export default function HeadBar() {
+function HeadBar() {
   const router = useRouter();
   const pathname = usePathname();
   const teamname = pathname.split("/")[2] || "";
@@ -74,6 +71,11 @@ export default function HeadBar() {
     }
   }, []);
 
+  useEffect(() => {
+    if (pathname === "/")
+      setPushToLoginPage(false);
+  }, [pathname]);
+
   return (
     <>
       <div className="bg-slate-900 py-4 px-4 flex flex-row justify-between gap-2 items-center">
@@ -121,3 +123,5 @@ export default function HeadBar() {
     </>
   );
 }
+
+export default HeadBar;

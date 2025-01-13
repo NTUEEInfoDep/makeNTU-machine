@@ -8,7 +8,7 @@ import { useAccountContext } from "@/context/Account";
 import LoaderSpiner from "@/components/LoaderSpinner";
 import { usePathname } from "next/navigation";
 
-export default function Login() {
+function Login() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -30,26 +30,26 @@ export default function Login() {
     }
   }, [username]);
 
-  const handleRegister = async () => {
-    const validInput = checkInput();
-    if (!validInput) {
-      return;
-    }
-    try {
-      const { user: user, token: token } = await createAccount({
-        username,
-        password,
-        permission,
-      });
-      localStorage.setItem("jwt-token: ", token);
-      router.refresh();
-      router.push("/login");
-    } catch (error) {
-      alert("發生錯誤");
-      console.log(error);
-      return;
-    }
-  };
+  // const handleRegister = async () => {
+  //   const validInput = checkInput();
+  //   if (!validInput) {
+  //     return;
+  //   }
+  //   try {
+  //     const { user: user, token: token } = await createAccount({
+  //       username,
+  //       password,
+  //       permission,
+  //     });
+  //     localStorage.setItem("jwt-token: ", token);
+  //     router.refresh();
+  //     router.push("/login");
+  //   } catch (error) {
+  //     alert("發生錯誤");
+  //     console.log(error);
+  //     return;
+  //   }
+  // };
 
   const handleLogin = async () => {
     if (!checkInput()) {
@@ -161,3 +161,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login;

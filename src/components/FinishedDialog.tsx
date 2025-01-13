@@ -7,22 +7,9 @@ import {
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import io from "socket.io-client";
+import type { FinishDialogProps, broadcastStatusRequest } from "@/shared/types";
 
-export type FinishDialogProps = {
-  id: number;
-  open: boolean;
-  groupName: number;
-  type: string;
-  onClose: () => void;
-};
-
-type broadcastRequest = {
-  id: number;
-  status: string;
-  timeCreated: Date;
-};
-
-export default function FinishedDialog({
+function FinishedDialog({
   id,
   open,
   groupName,
@@ -41,7 +28,7 @@ export default function FinishedDialog({
           id,
           newStatus,
         });
-        const broadcastChange: broadcastRequest = {
+        const broadcastChange: broadcastStatusRequest = {
           id: id,
           status: newStatus,
           timeCreated: new Date(),
@@ -56,7 +43,7 @@ export default function FinishedDialog({
           id,
           newStatus,
         });
-        const broadcastChange: broadcastRequest = {
+        const broadcastChange: broadcastStatusRequest = {
           id: id,
           status: newStatus,
           timeCreated: new Date(),
@@ -101,3 +88,5 @@ export default function FinishedDialog({
     </>
   );
 }
+
+export default FinishedDialog;

@@ -1,6 +1,6 @@
-import React from "react";
+import { forwardRef } from "react";
 
-const Separator = React.forwardRef((props, ref) => (
+const Separator = forwardRef((props, _) => (
   <div
     role="presentation"
     className={`

@@ -17,28 +17,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import io from "socket.io-client";
 import { laserCutQueueListForAdminTableCells } from "@/constant/index";
+import type { indRequestForLaserCutQueueForAdmin } from "@/shared/types";
 
-type indRequestForAdmin = {
-  id: number;
-  groupname: number;
-  machine: number;
-  filename: string;
-  material: string[];
-  finalMaterial: string;
-  status: string;
-  comment: string;
-  timeleft: Date;
-};
-
-type broadcastRequest = {
-  id: number;
-  finalMaterial: string;
-};
-
-export default function LaserCutQueueListForAdmin() {
+function LaserCutQueueListForAdmin() {
   // const { requests } = useContext(RequestContext);
   // const { user } = useContext(AccountContext);
-  const [requestList, setRequestList] = useState<indRequestForAdmin[]>();
+  const [requestList, setRequestList] =
+    useState<indRequestForLaserCutQueueForAdmin[]>();
   const {
     getLaserCutRequest,
     putLaserCutRequestMachine,
@@ -51,7 +36,7 @@ export default function LaserCutQueueListForAdmin() {
     const gReq = async () => {
       try {
         const requestListInit = await getLaserCutRequest();
-        const requestListJson: indRequestForAdmin[] =
+        const requestListJson: indRequestForLaserCutQueueForAdmin[] =
           requestListInit["dbresultReq"];
         setRequestList(requestListJson);
       } catch (e) {
@@ -69,7 +54,7 @@ export default function LaserCutQueueListForAdmin() {
         id,
         newFinalMaterial,
       });
-      const broadcastChange: broadcastRequest = {
+      const broadcastChange = {
         id: id,
         finalMaterial: newFinalMaterial,
       };
@@ -225,3 +210,5 @@ export default function LaserCutQueueListForAdmin() {
     </div>
   );
 }
+
+export default LaserCutQueueListForAdmin;

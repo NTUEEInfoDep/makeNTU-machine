@@ -1,33 +1,12 @@
+"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import { useRef } from "react";
+import type { StatusProps, indRequestForStatus } from "@/shared/types";
 
-type StatusProps = {
-  id: number;
-  initialState: string;
-  timeStarted: Date;
-  type: string;
-};
-
-type indRequestForStatus = {
-  id: number;
-  timeleft: Date;
-  status: string;
-};
-
-type broadcastRequest = {
-  id: number;
-  status: string;
-};
-
-export default function Status({
-  id,
-  initialState,
-  timeStarted,
-  type,
-}: StatusProps) {
+function Status({ id, initialState, timeStarted, type }: StatusProps) {
   const router = useRouter();
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   const statusArray = ["等待確認", "等待檔案", "過號", "製作中", "已完成"];
@@ -169,3 +148,5 @@ export default function Status({
     </>
   );
 }
+
+export default Status;

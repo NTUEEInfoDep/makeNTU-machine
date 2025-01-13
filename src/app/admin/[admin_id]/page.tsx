@@ -7,7 +7,7 @@ import LaserCutMachineList from "@/components/LaserCutMachineList";
 import ThreeDPMachineList from "@/components/ThreeDPMachineList";
 import LoaderSpiner from "@/components/LoaderSpinner";
 
-export default function useAdmin() {
+function useAdmin() {
   const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("laser");
@@ -113,3 +113,5 @@ export default function useAdmin() {
     </div>
   );
 }
+
+export default useAdmin;

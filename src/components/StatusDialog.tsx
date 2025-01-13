@@ -1,18 +1,8 @@
-import React from "react";
 import { Dialog, DialogContent } from "@mui/material";
 import { Separator } from "@/components/ui/Separator";
+import type { StatusDialogProps } from "@/shared/types";
 
-export type CommentDialogProps = {
-  open: boolean;
-  status: string;
-  onClose: () => void;
-};
-
-export default function CommentDialog({
-  open,
-  status,
-  onClose,
-}: CommentDialogProps) {
+function StatusDialog({ open, status, onClose }: StatusDialogProps) {
   const handleClick = (index: number) => {
     console.log(`機台${index + 1}`);
     onClose();
@@ -42,3 +32,5 @@ export default function CommentDialog({
     </>
   );
 }
+
+export default StatusDialog;

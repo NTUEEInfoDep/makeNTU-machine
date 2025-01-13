@@ -6,24 +6,16 @@ import {
 } from "@mui/material";
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import { useRouter } from "next/navigation";
+import type { LaserReserveDialogProps } from "@/shared/types";
 
-export type FinishDialogProps = {
-  open: boolean;
-  group: string;
-  material: string[];
-  filename: string;
-  comment: string;
-  onClose: () => void;
-};
-
-export default function LaserReserveDialog({
+function LaserReserveDialog({
   open,
   group,
   material,
   filename,
   comment,
   onClose,
-}: FinishDialogProps) {
+}: LaserReserveDialogProps) {
   const { postLaserCutRequest } = useLaserCutRequest();
   const router = useRouter();
 
@@ -84,3 +76,5 @@ export default function LaserReserveDialog({
     </>
   );
 }
+
+export default LaserReserveDialog;

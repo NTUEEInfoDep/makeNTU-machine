@@ -3,7 +3,7 @@
 import Image from "next/image";
 import map_path from "../../public/machineMap.png";
 
-export default function Map() {
+function Map() {
   return (
     <>
       <div className="w-6/12 mx-auto mt-4 relative">
@@ -14,3 +14,5 @@ export default function Map() {
     </>
   );
 }
+
+export default Map;

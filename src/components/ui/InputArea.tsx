@@ -1,13 +1,6 @@
 "use client";
 import { forwardRef } from "react";
-
-type InputProps = {
-  placeHolder?: string;
-  editable: boolean;
-  value?: string;
-  type?: string;
-  onChange?: (value: string) => void;
-};
+import type { InputProps } from "@/shared/types";
 
 const InputArea = forwardRef<HTMLInputElement, InputProps>(
   ({ placeHolder, editable, value, type = "text", onChange }, ref) => {

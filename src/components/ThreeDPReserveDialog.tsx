@@ -6,18 +6,9 @@ import {
 } from "@mui/material";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import { useRouter } from "next/navigation";
+import type { ThreeDPReserveDialogProps } from "@/shared/types";
 
-export type FinishDialogProps = {
-  open: boolean;
-  group: string;
-  material: string[];
-  filename: string;
-  comment: string;
-  loadBearing: boolean;
-  onClose: () => void;
-};
-
-export default function ThreeDPReserveDialog({
+function ThreeDPReserveDialog({
   open,
   group,
   filename,
@@ -25,7 +16,7 @@ export default function ThreeDPReserveDialog({
   loadBearing,
   comment,
   onClose,
-}: FinishDialogProps) {
+}: ThreeDPReserveDialogProps) {
   const { postThreeDPRequest } = useThreeDPRequest();
   const router = useRouter();
 
@@ -86,3 +77,5 @@ export default function ThreeDPReserveDialog({
     </>
   );
 }
+
+export default ThreeDPReserveDialog;
