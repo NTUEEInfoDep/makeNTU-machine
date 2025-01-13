@@ -13,7 +13,7 @@ Next, we start the backend.
 note: Be sure you have your docker desktop running
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ```bash
