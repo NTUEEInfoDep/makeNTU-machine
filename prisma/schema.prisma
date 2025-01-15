@@ -11,8 +11,8 @@ datasource db {
 }
 
 model Account {
-  id          Int         @id @default(autoincrement())
-  name        String      @unique  
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
   password    String
   permission  String
   LaserCutReq LaserCutReq[]
@@ -20,29 +20,29 @@ model Account {
 }
 
 model LaserCutReq {
-  id            Int         @id @default(autoincrement())
-  group         Account     @relation(fields: [groupname], references: [name])
+  id            Int      @id @default(autoincrement())
+  group         Account  @relation(fields: [groupname], references: [name])
   groupname     String
-  machine       Int         // e.g. 0, 1
-  filename      String  
-  material      String[]       // e.g. 0: 3mm 密集, 1: 5mm 密集, 2: 3mm 壓克力, 3: 5mm 壓克力
+  machine       Int // e.g. 0, 1
+  filename      String
+  material      String[] // e.g. 0: 3mm 密集, 1: 5mm 密集, 2: 3mm 壓克力, 3: 5mm 壓克力
   finalMaterial String
   comment       String?
-  status        String      
+  status        String
   timeleft      DateTime
-  createAt      DateTime    @default(now())
+  createAt      DateTime @default(now())
 }
 
 model ThreeDPReq {
-  id          Int         @id @default(autoincrement())
-  group       Account     @relation(fields: [groupname], references: [name])
+  id          Int      @id @default(autoincrement())
+  group       Account  @relation(fields: [groupname], references: [name])
   groupname   String
-  machine     Int         // e.g. 0, 1
+  machine     Int // e.g. 0, 1
   filename    String
-  loadBearing Boolean     
-  material    String[]       // e.g. 0: PLA, 1: Other
+  loadBearing Boolean
+  material    String[] // e.g. 0: PLA, 1: Other
   comment     String?
-  status      String    
-  timeleft    DateTime  
-  createAt    DateTime    @default(now())
+  status      String
+  timeleft    DateTime
+  createAt    DateTime @default(now())
 }

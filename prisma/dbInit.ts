@@ -1,54 +1,47 @@
-const { PrismaClient } = require("@prisma/client");
+import prisma from "./client";
 
-const prisma = new PrismaClient();
+const dummyData = [
+  {
+    name: "0",
+    password: "hGjOYp43",
+    permission: "admin",
+  },
+  {
+    name: "team1",
+    password: "team1",
+    permission: "contestant",
+  },
+  {
+    name: "team2",
+    password: "team2",
+    permission: "contestant",
+  },
+];
 
-const superADMIN = {
-  name: "0",
-  password: "hGjOYp43",
-  permission: "admin",
-};
-
-const contestant = {
-  name: "team1",
-  password: "team1",
-  permission: "contestant",
-};
-
-const addSuperADMIN = async () => {
-  const findADMIN = await prisma.account.findFirst({
-    where: {
-      name: superADMIN.name,
-    },
-  });
-
-  if (findADMIN === null) {
-    await prisma.account.create({
-      data: {
-        name: superADMIN.name,
-        password: superADMIN.password,
-        permission: superADMIN.permission,
+const addUser = async () => {
+  dummyData.forEach(async (data) => {
+    const account = await prisma.account.findFirst({
+      where: {
+        name: data.name,
       },
     });
-  }
-};
 
-const addContestant = async () => {
-  const findContestant = await prisma.account.findFirst({
-    where: {
-      name: contestant.name,
-    },
+    if (account === null) {
+      await prisma.account.create({
+        data: {
+          name: data.name,
+          password: data.password,
+          permission: data.permission,
+        },
+      });
+    }
   });
-
-  if (findContestant === null) {
-    await prisma.account.create({
-      data: {
-        name: contestant.name,
-        password: contestant.password,
-        permission: contestant.permission,
-      },
-    });
-  }
 };
 
-addSuperADMIN();
-addContestant();
+addUser()
+  .catch((e) => {
+    throw e;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
