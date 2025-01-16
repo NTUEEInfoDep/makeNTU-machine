@@ -4,15 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import InputArea from "@/components/ui/InputArea";
 import { Checkbox } from "@mui/material";
-// import { AccountContext } from "@/context/Account";
-// import { RequestContext } from "@/context/Request";
-// import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import LaserReserveDialog from "@/components/LaserReserveDialog";
+import { decodeJWT } from "@/lib/decodeJWT";
 
 function useReserve() {
-  // const { user } = useContext(AccountContext);
-  // const { sendRequest } = useContext(RequestContext);
   const router = useRouter();
   const pathname = usePathname();
   // const secretkey: string = process.env.PASSWORD_SECRET
@@ -35,15 +31,6 @@ function useReserve() {
   ]);
   const [customized, setCustomized] = useState(false);
   const [open, setOpen] = useState(false);
-
-  function decodeJWT(token: string): Record<string, any> | null {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      return null; // Invalid JWT format
-    }
-    const payload = Buffer.from(parts[1], "base64").toString("utf-8");
-    return JSON.parse(payload);
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");

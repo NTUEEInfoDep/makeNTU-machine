@@ -66,7 +66,7 @@ export type indRequestForThreeDP = {
 // @/components/LaserCutQueueListForContestant.tsx
 export type indRequestForLaserCutQueue = {
   id: number;
-  groupname: number;
+  groupname: number | string;
   filename: string;
   material: string[];
   finalMaterial: string;
@@ -86,7 +86,7 @@ export type broadcastMaterialRequest = {
 // @/components/ThreeDPQueueListForContestant.tsx
 export type indRequestForThreeDPQueue = {
   id: number;
-  groupname: number;
+  groupname: number | string;
   filename: string;
   loadBearing: boolean;
   material: string[];
@@ -138,7 +138,7 @@ export type ThreeDPReserveDialogProps = {
 
 export type indRequestForLaserCutQueueForAdmin = {
   id: number;
-  groupname: number;
+  groupname: number | string;
   machine: number;
   filename: string;
   material: string[];
@@ -150,7 +150,7 @@ export type indRequestForLaserCutQueueForAdmin = {
 
 export type indRequestForThreeDPQueueForAdmin = {
   id: number;
-  groupname: number;
+  groupname: number | string;
   machine: number;
   loadBearing: boolean;
   filename: string;
@@ -179,4 +179,19 @@ export type InputProps = {
   value?: string;
   type?: string;
   onChange?: (value: string) => void;
+};
+
+export type broadcastNewLaserCutReserveRequest = {
+  groupname: string;
+  filename: string;
+  material: string[];
+  comment: string;
+};
+
+export type broadcastNewThreeDPReserveRequest = {
+  groupname: string;
+  filename: string;
+  material: string[];
+  loadBearing: boolean;
+  comment: string;
 };

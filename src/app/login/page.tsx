@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import InputArea from "@/components/ui/InputArea";
 import useAccount from "@/hooks/useAccount";
 import { useAccountContext } from "@/context/Account";
-import LoaderSpiner from "@/components/LoaderSpinner";
+import LoaderSpinner from "@/components/LoaderSpinner";
 import { usePathname } from "next/navigation";
 
 function Login() {
@@ -18,7 +18,7 @@ function Login() {
   const [permission, setPermission] = useState("");
   const [loading, setLoading] = useState(false);
   const { setPushToLoginPage } = useAccountContext();
-  const { createAccount, getAccount } = useAccount();
+  const { getAccount } = useAccount();
 
   useEffect(() => {
     if (username.startsWith("admin")) {
@@ -102,7 +102,7 @@ function Login() {
   }, []);
 
   return loading ? (
-    <LoaderSpiner />
+    <LoaderSpinner />
   ) : (
     <div className="flex flex-col gap-1.5 w-4/12 mx-auto px-6 py-5 border rounded-lg mt-16 bg-black border-[#444444]">
       <div className="flex flex-row items-center gap-1">

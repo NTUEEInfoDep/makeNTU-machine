@@ -1,8 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-// import { useContext } from "react";
-// import RequestCardForMachine from "./RequestCardForMachine";
-// import { RequestContext } from "@/context/Request";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -11,15 +8,12 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import { TableRow } from "@mui/material";
 import CommentDialog from "./CommentDialog";
-// import { request } from "http";
-// import { useRouter } from "next/navigation";
 import FinishedDialog from "./FinishedDialog";
 import { threeDPMachineListTableCells } from "@/constant/index";
 import type { MachineListProps, indRequestForThreeDP } from "@/shared/types";
+import LoaderSpinner from "./LoaderSpinner";
 
 function ThreeDPMachineList({ index }: MachineListProps) {
-  // const { requests } = useContext(RequestContext);
-  // const router = useRouter();
   const { getThreeDPRequest, putThreeDPRequestStatus } = useThreeDPRequest();
 
   const [requestList, setRequestList] = useState<indRequestForThreeDP[]>();
@@ -29,9 +23,11 @@ function ThreeDPMachineList({ index }: MachineListProps) {
   const [dialogString, setDialogString] = useState("");
   const [name, setName] = useState(0);
   const [groupID, setGroupID] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const gReq = async () => {
+      setLoading(true);
       try {
         const requestListInit = await getThreeDPRequest();
         const requestListJson: indRequestForThreeDP[] =
@@ -40,9 +36,14 @@ function ThreeDPMachineList({ index }: MachineListProps) {
       } catch (e) {
         console.log(e);
       }
+      setLoading(false);
     };
     gReq();
   }, []);
+
+  if (loading) {
+    return <LoaderSpinner />;
+  }
 
   return (
     <>
@@ -85,7 +86,7 @@ function ThreeDPMachineList({ index }: MachineListProps) {
                     <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                       {request.status}
                       <button
-                        className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        className="mx-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                         onClick={() => {
                           setDialogOpen(true);
                           setGroupID(request.id);

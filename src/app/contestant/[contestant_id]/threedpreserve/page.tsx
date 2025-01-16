@@ -3,14 +3,11 @@ import { useState, useEffect } from "react";
 // import { useRef, useContext } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import InputArea from "@/components/ui/InputArea";
-// import { AccountContext } from "@/context/Account";
-// import { RequestContext } from "@/context/Request";
 import { Checkbox } from "@mui/material";
 import ThreeDPReserveDialog from "@/components/ThreeDPReserveDialog";
+import { decodeJWT } from "@/lib/decodeJWT";
 
 function useReserve() {
-  // const { user } = useContext(AccountContext);
-  // const { sendRequest } = useContext(RequestContext);
   const router = useRouter();
   const pathname = usePathname();
   // const secretkey: string = process.env.PASSWORD_SECRET
@@ -24,15 +21,6 @@ function useReserve() {
   const [loadBearing, setLoadBearing] = useState(false);
   const [open, setOpen] = useState(false);
   const pathTemp = pathname.split("/");
-
-  function decodeJWT(token: string): Record<string, any> | null {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      return null; // Invalid JWT format
-    }
-    const payload = Buffer.from(parts[1], "base64").toString("utf-8");
-    return JSON.parse(payload);
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");

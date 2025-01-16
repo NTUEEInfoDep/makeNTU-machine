@@ -5,7 +5,8 @@ import LaserCutQueueListForAdmin from "@/components/LaserCutQueueListForAdmin";
 import ThreeDPQueueListForAdmin from "@/components/ThreeDPQueueListForAdmin";
 import LaserCutMachineList from "@/components/LaserCutMachineList";
 import ThreeDPMachineList from "@/components/ThreeDPMachineList";
-import LoaderSpiner from "@/components/LoaderSpinner";
+import LoaderSpinner from "@/components/LoaderSpinner";
+import { decodeJWT } from "@/lib/decodeJWT";
 
 function useAdmin() {
   const router = useRouter();
@@ -15,15 +16,6 @@ function useAdmin() {
   // const secretkey: string = process.env.PASSWORD_SECRET
   //   ? process.env.PASSWORD_SECRET
   //   : "Secret";
-
-  function decodeJWT(token: string): Record<string, any> | null {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      return null; // Invalid JWT format
-    }
-    const payload = Buffer.from(parts[1], "base64").toString("utf-8");
-    return JSON.parse(payload);
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");
@@ -60,7 +52,7 @@ function useAdmin() {
   };
 
   return loading ? (
-    <LoaderSpiner />
+    <LoaderSpinner />
   ) : (
     <div className="bg-background pb-5">
       <div className="flex items-center justify-center gap-2.5 my-4">

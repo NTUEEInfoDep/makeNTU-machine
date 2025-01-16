@@ -5,18 +5,11 @@ import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import { useRef } from "react";
 import type { StatusProps, indRequestForStatus } from "@/shared/types";
+import { statuses } from "@/constant/index";
 
 function Status({ id, initialState, timeStarted, type }: StatusProps) {
   const router = useRouter();
   const [timer, setTimer] = useState<NodeJS.Timeout>();
-  const statusArray = ["等待確認", "等待檔案", "過號", "製作中", "已完成"];
-  const statusToColor = [
-    "text-gray-500",
-    "text-black-500",
-    "text-red-500",
-    "text-orange-500",
-    "text-green-500",
-  ];
 
   const {
     getLaserCutRequest,
@@ -62,7 +55,7 @@ function Status({ id, initialState, timeStarted, type }: StatusProps) {
   };
 
   useEffect(() => {
-    if (statusArray.includes(initialState)) {
+    if (statuses.includes(initialState)) {
       setCurrent(initialState);
     }
     setFlag(true);
@@ -126,13 +119,19 @@ function Status({ id, initialState, timeStarted, type }: StatusProps) {
     router.refresh();
   };
 
+  const statusToTextColor = [
+    "text-black-500",
+    "text-gray-500",
+    "text-red-500",
+    "text-orange-500",
+    "text-green-500",
+  ];
   const mapStatusToColor = (status: string) => {
-    return statusToColor[statusArray.indexOf(status)];
+    return statusToTextColor[statuses.indexOf(status)];
   };
 
   return (
     <>
-      <div className="h-1"></div>
       <div className="flex h-10 items-end justify-center">
         <div
           className={`inline-flex flex-row font-semibold ${mapStatusToColor(current)}`}

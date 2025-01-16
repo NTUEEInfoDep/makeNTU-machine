@@ -6,7 +6,11 @@ import {
 } from "@mui/material";
 import useThreeDPRequest from "@/hooks/useThreeDPRequest";
 import { useRouter } from "next/navigation";
-import type { ThreeDPReserveDialogProps } from "@/shared/types";
+import type {
+  broadcastNewThreeDPReserveRequest,
+  ThreeDPReserveDialogProps,
+} from "@/shared/types";
+import io from "socket.io-client";
 
 function ThreeDPReserveDialog({
   open,
@@ -20,13 +24,14 @@ function ThreeDPReserveDialog({
   const { postThreeDPRequest } = useThreeDPRequest();
   const router = useRouter();
 
-  const handleSumbit = async (
+  const handleSubmit = async (
     group: string,
     filename: string,
     material: string[],
     loadBearing: boolean,
     comment: string,
   ) => {
+    const socket = io();
     try {
       await postThreeDPRequest({
         group,
@@ -35,6 +40,14 @@ function ThreeDPReserveDialog({
         loadBearing,
         comment,
       });
+      const broadcastChange: broadcastNewThreeDPReserveRequest = {
+        groupname: group,
+        filename: filename,
+        material: material,
+        loadBearing: loadBearing,
+        comment: comment,
+      };
+      socket.emit("newThreeDPReserveRequest", broadcastChange);
     } catch (e) {
       console.error(e);
     }
@@ -67,7 +80,7 @@ function ThreeDPReserveDialog({
           <button
             className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             onClick={() =>
-              handleSumbit(group, filename, material, loadBearing, comment)
+              handleSubmit(group, filename, material, loadBearing, comment)
             }
           >
             確定

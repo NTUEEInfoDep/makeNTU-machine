@@ -1,9 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-// import { useContext } from "react";
-// import { request } from "http";
-// import RequestCardForMachine from "./RequestCardForMachine";
-// import { RequestContext } from "@/context/Request";
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -14,27 +10,34 @@ import { TableRow } from "@mui/material";
 import CommentDialog from "./CommentDialog";
 import FinishedDialog from "./FinishedDialog";
 import { laserCutMachineListTableCells } from "@/constant/index";
-import type { MachineListProps, indRequestForLaserCut } from "@/shared/types";
+import type {
+  MachineListProps,
+  broadcastMaterialRequest,
+  broadcastStatusRequest,
+  indRequestForLaserCut,
+} from "@/shared/types";
+import { io } from "socket.io-client";
+import LoaderSpinner from "./LoaderSpinner";
 
 function LaserCutMachineList({ index }: MachineListProps) {
-  // const { requests } = useContext(RequestContext);
   const {
     getLaserCutRequest,
-    putLaserCutRequestMachine,
-    putLaserCutRequestMaterial,
-    putLaserCutRequestStatus,
+    // putLaserCutRequestMachine,
+    // putLaserCutRequestMaterial,
+    // putLaserCutRequestStatus,
   } = useLaserCutRequest();
 
   const [requestList, setRequestList] = useState<indRequestForLaserCut[]>();
-
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogString, setDialogString] = useState("");
   const [name, setName] = useState(0);
   const [groupID, setGroupID] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const gReq = async () => {
+      setLoading(true);
       try {
         const requestListInit = await getLaserCutRequest();
         const requestListJson: indRequestForLaserCut[] =
@@ -43,9 +46,58 @@ function LaserCutMachineList({ index }: MachineListProps) {
       } catch (e) {
         console.log(e);
       }
+      setLoading(false);
     };
     gReq();
   }, []);
+
+  useEffect(() => {
+    const socket = io();
+
+    socket.on("laserCutQueue", (laserCutQueue: broadcastStatusRequest) => {
+      if (requestList) {
+        const updatedRequestList = requestList.map((request) => {
+          if (request.id === laserCutQueue.id) {
+            return {
+              ...request,
+              status: laserCutQueue.status,
+              timeleft: laserCutQueue.timeCreated,
+            };
+          }
+          return request;
+        });
+
+        setRequestList(updatedRequestList);
+      }
+    });
+
+    socket.on(
+      "laserCutMaterial",
+      (laserCutMaterial: broadcastMaterialRequest) => {
+        if (requestList) {
+          const updatedRequestList = requestList.map((request) => {
+            if (request.id === laserCutMaterial.id) {
+              return {
+                ...request,
+                finalMaterial: laserCutMaterial.finalMaterial,
+              };
+            }
+            return request;
+          });
+
+          setRequestList(updatedRequestList);
+        }
+      },
+    );
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [requestList]);
+
+  if (loading) {
+    return <LoaderSpinner />;
+  }
 
   return (
     <>
@@ -93,7 +145,7 @@ function LaserCutMachineList({ index }: MachineListProps) {
                     <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                       {request.status}
                       <button
-                        className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        className="mx-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                         onClick={() => {
                           setDialogOpen(true);
                           setGroupID(request.id);

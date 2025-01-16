@@ -1,11 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-// import { useContext } from "react";
-// import { RequestContext } from "@/context/Request";
-// import { AccountContext } from "@/context/Account";
 import StatusForContestant from "./StatusForContestant";
 import useRequest from "@/hooks/useThreeDPRequest";
-import { usePathname } from "next/navigation";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -18,22 +14,23 @@ import CommentDialog from "./CommentDialog";
 import type {
   indRequestForThreeDPQueue,
   broadcastStatusRequest,
+  broadcastNewThreeDPReserveRequest,
 } from "@/shared/types";
+import LoaderSpinner from "./LoaderSpinner";
+import { useRouter } from "next/navigation";
 
 function ThreeDPQueueList() {
-  // const { requests, setRequests } = useContext(RequestContext);
-  // const { user } = useContext(AccountContext);
+  const router = useRouter();
   const [requestList, setRequestList] = useState<indRequestForThreeDPQueue[]>();
-  const pathname = usePathname();
-  const pathTemp = pathname.split("/");
-  const group = pathTemp[2];
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [dialogString, setDialogString] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { getThreeDPRequest } = useRequest();
 
   useEffect(() => {
     const gReq = async () => {
+      setLoading(true);
       try {
         const requestListInit = await getThreeDPRequest();
         const requestListJson: indRequestForThreeDPQueue[] =
@@ -42,6 +39,7 @@ function ThreeDPQueueList() {
       } catch (e) {
         console.log(e);
       }
+      setLoading(false);
     };
     gReq();
   }, []);
@@ -66,10 +64,32 @@ function ThreeDPQueueList() {
       }
     });
 
+    socket.on(
+      "newThreeDPReserveRequest",
+      (_: broadcastNewThreeDPReserveRequest) => {
+        const gReq = async () => {
+          try {
+            const requestListInit = await getThreeDPRequest();
+            const requestListJson: indRequestForThreeDPQueue[] =
+              requestListInit["dbresultReq"];
+            setRequestList(requestListJson);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        gReq();
+        router.refresh();
+      },
+    );
+
     return () => {
       socket.disconnect();
     };
   }, [requestList]);
+
+  if (loading) {
+    return <LoaderSpinner />;
+  }
 
   return (
     <div className="mb-2">
@@ -99,12 +119,7 @@ function ThreeDPQueueList() {
           <Table aria-label="simple table" style={{ tableLayout: "fixed" }}>
             <TableBody>
               {requestList?.map((request) => (
-                <TableRow
-                  className={
-                    String(request.groupname) === group ? "bg-gray-300" : ""
-                  }
-                  key={request.id}
-                >
+                <TableRow className="bg-white" key={request.id}>
                   <TableCell sx={{ textAlign: "center", fontSize: "16px" }}>
                     {String(request.groupname)}
                   </TableCell>

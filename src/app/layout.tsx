@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import HeadBar from "../components/HeadBar";
 import { AccountProvider } from "@/context/Account";
-import { RequestProvider } from "@/context/Request";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,10 +19,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + " bg-background"}>
         <AccountProvider>
-          <RequestProvider>
-            <HeadBar />
-            {children}
-          </RequestProvider>
+          <HeadBar />
+          {children}
         </AccountProvider>
       </body>
     </html>

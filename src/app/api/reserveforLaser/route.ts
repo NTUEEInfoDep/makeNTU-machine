@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   const { group, filename, material, comment } = data;
   try {
     const test = new Date();
-    const groupFinal = await prisma.account.update({
+    await prisma.account.update({
       where: {
         name: group,
       },
@@ -57,7 +57,7 @@ export async function PUT(req: NextRequest) {
   const { newStatus, newMachine, newFinalMaterial, newTimeLeft } = data;
   const reqID = data.id;
   try {
-    const result = await prisma.laserCutReq.update({
+    await prisma.laserCutReq.update({
       where: {
         id: reqID,
       },
@@ -72,7 +72,7 @@ export async function PUT(req: NextRequest) {
   } catch (error) {
     console.log("error: ", error);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Record to update not found." },
       { status: 500 },
     );
   }

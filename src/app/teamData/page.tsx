@@ -4,26 +4,20 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useAccount from "@/hooks/useAccount";
 import Papa from "papaparse";
-import LoaderSpiner from "@/components/LoaderSpinner";
+import LoaderSpinner from "@/components/LoaderSpinner";
 import { useAccountContext } from "@/context/Account";
 import type { userDataType, dbUserDataType } from "@/shared/types";
+import { decodeJWT } from "@/lib/decodeJWT";
 
 function TeamData() {
   const router = useRouter();
   const { userList } = useAccountContext();
+  if (!userList) {
+    return <LoaderSpinner />;
+  }
   const { createAccount, getAccountbyToken, deleteUsers } = useAccount();
   const [username, setUsername] = useState("");
-  const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
-
-  function decodeJWT(token: string): Record<string, any> | null {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      return null; // Invalid JWT format
-    }
-    const payload = Buffer.from(parts[1], "base64").toString("utf-8");
-    return JSON.parse(payload);
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("jwt-token: ");
@@ -41,7 +35,10 @@ function TeamData() {
     }
   }, []);
 
-  const handleCSVUpload = (event: any) => {
+  const handleCSVUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    }
     const csvFile = event.target.files[0];
 
     Papa.parse(csvFile, {
@@ -60,7 +57,7 @@ function TeamData() {
             const findUser = dbData.find((user) => user.name === dat.name);
             if (findUser === undefined) {
               try {
-                const { user: user, token: token } = await createAccount({
+                await createAccount({
                   username: dat.name,
                   password: dat.password,
                   permission: auth,
@@ -72,7 +69,7 @@ function TeamData() {
               }
             }
           });
-          setMsg("User data has been uploaded");
+          alert("User data has been uploaded");
         } catch (error) {
           alert("An error occurred");
           console.log(error);
@@ -82,9 +79,9 @@ function TeamData() {
     });
   };
 
-  const handleClear = () => {
-    deleteUsers();
-    setMsg("User data has been cleared");
+  const handleClear = async () => {
+    await deleteUsers();
+    alert("User data has been cleared");
   };
 
   const hanleLeave = () => {
@@ -96,7 +93,7 @@ function TeamData() {
   };
 
   return loading ? (
-    <LoaderSpiner />
+    <LoaderSpinner />
   ) : (
     <>
       <div className="flex flex-col gap-2 justify-center items-center mt-2">
@@ -129,16 +126,19 @@ function TeamData() {
           </button>
         </div>
         <div className="flex items-center justify-center">
+          <label
+            htmlFor="uploader"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          >
+            Upload CSV
+          </label>
           <input
             type="file"
             id="uploader"
-            className="bg-blue-500 hover:bg-blue-700 py-2 px-4 rounded text-white"
+            className="hidden"
             accept=".csv"
-            onChange={handleCSVUpload}
+            onChange={(e) => handleCSVUpload(e)}
           />
-        </div>
-        <div className="flex items-center justify-center">
-          <p className="text-sm font-bold text-red-500">{msg}</p>
         </div>
         <div className="flex items-center justify-center">
           <button

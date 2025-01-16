@@ -1,6 +1,8 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ReactNode } from "react";
+import { decodeJWT } from "@/lib/decodeJWT";
 
 export type Account = {
   id: number;
@@ -36,10 +38,7 @@ export const AccountContext = createContext<AccountContext>({
   setPushToLoginPage: () => {},
 });
 
-type Props = {
-  children: React.ReactNode;
-};
-export const AccountProvider = ({ children }: Props) => {
+export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const [user, setAccount] = useState<Account | undefined>();
   const [userList, setUserList] = useState<Account[] | undefined>();
@@ -57,21 +56,15 @@ export const AccountProvider = ({ children }: Props) => {
       router.refresh();
       return res.json();
     };
+
     const getUser = async () => {
       const UserListInit = await userHook();
       const UserListJson: Account[] = UserListInit["user"];
       setUserList(UserListJson);
     };
     getUser();
+
     const token = localStorage.getItem("jwt-token: ");
-    function decodeJWT(token: string): Record<string, any> | null {
-      const parts = token.split(".");
-      if (parts.length !== 3) {
-        return null; // Invalid JWT format
-      }
-      const payload = Buffer.from(parts[1], "base64").toString("utf-8");
-      return JSON.parse(payload);
-    }
     if (!token) {
       // alert("未登入");
       // router.push("/login");

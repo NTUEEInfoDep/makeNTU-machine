@@ -1,9 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-// import { useContext } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAccountContext } from "@/context/Account";
-// import type { AccountType } from "@/shared/types";
+import { decodeJWT } from "@/lib/decodeJWT";
 
 function HeadBar() {
   const router = useRouter();
@@ -11,18 +10,6 @@ function HeadBar() {
   const teamname = pathname.split("/")[2] || "";
   const { pushToLoginPage, setPushToLoginPage } = useAccountContext();
   const [loading, setLoading] = useState(false);
-  // const [user, setUser] = useState<Account>();
-
-  // const [userList, setUserList] = useState<Account[]>();
-
-  function decodeJWT(token: string): Record<string, any> | null {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      return null; // Invalid JWT format
-    }
-    const payload = Buffer.from(parts[1], "base64").toString("utf-8");
-    return JSON.parse(payload);
-  }
 
   const handleLogin = () => {
     setLoading(true);
@@ -38,7 +25,6 @@ function HeadBar() {
   const handleLogout = () => {
     setLoading(true);
     localStorage.clear();
-    // setUser({ username: "", permission: "" });
     router.push("/");
     setPushToLoginPage(false);
     setTimeout(() => {
@@ -72,8 +58,7 @@ function HeadBar() {
   }, []);
 
   useEffect(() => {
-    if (pathname === "/")
-      setPushToLoginPage(false);
+    if (pathname === "/") setPushToLoginPage(false);
   }, [pathname]);
 
   return (
@@ -99,23 +84,34 @@ function HeadBar() {
                 </p>
               )}
             </div>
-            <div className="flex flex-row justify-between">
-              {pathname !== "/login" &&
-                (!pushToLoginPage && !teamname ? (
-                  <button
-                    className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={handleLogin}
-                  >
-                    登入
-                  </button>
-                ) : (
-                  <button
-                    className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={handleLogout}
-                  >
-                    登出
-                  </button>
-                ))}
+            <div className="flex flex-row justify-between gap-1.5">
+              {pathname !== "/login" && (
+                <>
+                  {!pushToLoginPage && !teamname ? (
+                    <button
+                      className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={handleLogin}
+                    >
+                      登入
+                    </button>
+                  ) : (
+                    <button
+                      className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={handleLogout}
+                    >
+                      登出
+                    </button>
+                  )}
+                  <div>
+                    <button
+                      className="mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => router.push("/map")}
+                    >
+                      地圖
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

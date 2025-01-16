@@ -53,3 +53,5 @@ export const threeDPQueueListForAdminTableCells = [
   "列印狀態",
   "備註",
 ];
+
+export const statuses = ["等待確認", "等待檔案", "過號", "製作中", "已完成"];

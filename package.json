@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx ts-node src/server.ts",
+    "dev": "npx tsx src/server.ts",
     "build": "next build",
     "lint": "next lint",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev --name init",
-    "dbinit": "NODE_ENV=development npx ts-node prisma/dbInit.ts",
-    "start": "NODE_ENV=development npx ts-node src/server.ts",
-    "deploy": "prisma generate && prisma migrate deploy && NODE_ENV=production npx ts-node prisma/dbInit.ts && NODE_ENV=production npx ts-node src/server.ts",
+    "dbinit": "NODE_ENV=development npx tsx prisma/dbInit.ts",
+    "start": "NODE_ENV=development npx tsx src/server.ts",
+    "deploy": "prisma generate && prisma migrate deploy && NODE_ENV=production npx tsx prisma/dbInit.ts && NODE_ENV=production npx tsx src/server.ts",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -35,6 +35,7 @@
     "react-dom": "^18",
     "react-table": "^7.8.0",
     "rm": "^0.1.8",
+    "prettier-plugin-prisma": "^5.0.0",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
   },

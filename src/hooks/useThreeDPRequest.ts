@@ -79,7 +79,6 @@ export default function useThreeDPRequest() {
     id: number;
     newMachine: number;
   }) => {
-    console.log(newMachine);
     const res = await fetch("/api/reserveforThreeDP", {
       method: "PUT",
       body: JSON.stringify({

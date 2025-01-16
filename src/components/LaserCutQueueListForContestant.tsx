@@ -1,8 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-// import { useContext } from "react";
-// import { RequestContext } from "@/context/Request";
-// import { AccountContext } from "@/context/Account";
 import StatusForContestant from "./StatusForContestant";
 import useRequest from "@/hooks/useLaserCutRequest";
 import { usePathname } from "next/navigation";
@@ -20,24 +17,26 @@ import type {
   indRequestForLaserCutQueue,
   broadcastStatusRequest,
   broadcastMaterialRequest,
+  broadcastNewLaserCutReserveRequest,
 } from "@/shared/types";
+import LoaderSpinner from "./LoaderSpinner";
 
 function LaserCutQueueListForContestant() {
-  // const { requests, setRequests } = useContext(RequestContext);
-  // const { user } = useContext(AccountContext);
   const router = useRouter();
   const [requestList, setRequestList] =
     useState<indRequestForLaserCutQueue[]>();
   const pathname = usePathname();
   const pathTemp = pathname.split("/");
-  const group = pathTemp[2];
+  const groupname = pathTemp[2];
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [dialogString, setDialogString] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { getLaserCutRequest } = useRequest();
 
   useEffect(() => {
     const gReq = async () => {
+      setLoading(true);
       try {
         const requestListInit = await getLaserCutRequest();
         const requestListJson: indRequestForLaserCutQueue[] =
@@ -46,6 +45,7 @@ function LaserCutQueueListForContestant() {
       } catch (e) {
         console.log(e);
       }
+      setLoading(false);
     };
     gReq();
   }, []);
@@ -89,10 +89,32 @@ function LaserCutQueueListForContestant() {
       },
     );
 
+    socket.on(
+      "newLaserCutReserveRequest",
+      (_: broadcastNewLaserCutReserveRequest) => {
+        const gReq = async () => {
+          try {
+            const requestListInit = await getLaserCutRequest();
+            const requestListJson: indRequestForLaserCutQueue[] =
+              requestListInit["dbresultReq"];
+            setRequestList(requestListJson);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        gReq();
+        router.refresh();
+      },
+    );
+
     return () => {
       socket.disconnect();
     };
   }, [requestList]);
+
+  if (loading) {
+    return <LoaderSpinner />;
+  }
 
   return (
     <>
@@ -133,7 +155,9 @@ function LaserCutQueueListForContestant() {
               {requestList?.map((request) => (
                 <TableRow
                   className={
-                    String(request.groupname) === group ? "bg-white" : ""
+                    String(request.groupname) === groupname
+                      ? "bg-yellow-100"
+                      : "bg-white"
                   }
                   key={request.id}
                 >

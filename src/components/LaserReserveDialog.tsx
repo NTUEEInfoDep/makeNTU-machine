@@ -6,7 +6,11 @@ import {
 } from "@mui/material";
 import useLaserCutRequest from "@/hooks/useLaserCutRequest";
 import { useRouter } from "next/navigation";
-import type { LaserReserveDialogProps } from "@/shared/types";
+import type {
+  broadcastNewLaserCutReserveRequest,
+  LaserReserveDialogProps,
+} from "@/shared/types";
+import io from "socket.io-client";
 
 function LaserReserveDialog({
   open,
@@ -19,12 +23,13 @@ function LaserReserveDialog({
   const { postLaserCutRequest } = useLaserCutRequest();
   const router = useRouter();
 
-  const handleSumbit = async (
+  const handleSubmit = async (
     group: string,
     material: string[],
     filename: string,
     comment: string,
   ) => {
+    const socket = io();
     try {
       await postLaserCutRequest({
         group,
@@ -32,6 +37,13 @@ function LaserReserveDialog({
         material,
         comment,
       });
+      const broadcastChange: broadcastNewLaserCutReserveRequest = {
+        groupname: group,
+        filename: filename,
+        material: material,
+        comment: comment,
+      };
+      socket.emit("newLaserCutReserveRequest", broadcastChange);
     } catch (e) {
       console.error(e);
     }
@@ -67,7 +79,7 @@ function LaserReserveDialog({
           </button>
           <button
             className="m-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handleSumbit(group, material, filename, comment)}
+            onClick={() => handleSubmit(group, material, filename, comment)}
           >
             確定
           </button>

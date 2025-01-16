@@ -8,20 +8,18 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-// import { setFips } from "crypto";
 import io from "socket.io-client";
-import type { StatusProps, indRequestForStatus } from "@/shared/types";
-
-type broadcastRequest = {
-  id: number;
-  status: string;
-  timeCreated: Date;
-};
+import type {
+  StatusProps,
+  indRequestForStatus,
+  broadcastStatusRequest,
+} from "@/shared/types";
+import { statuses } from "@/constant/index";
 
 function Status({ id, initialState, timeStarted, type }: StatusProps) {
   const router = useRouter();
   const [timer, setTimer] = useState<NodeJS.Timeout>();
-  const statusArray = ["等待確認", "等待檔案", "過號", "製作中", "已完成"];
+
   const {
     getLaserCutRequest,
     putLaserCutRequestStatus,
@@ -66,7 +64,7 @@ function Status({ id, initialState, timeStarted, type }: StatusProps) {
   };
 
   useEffect(() => {
-    if (statusArray.includes(initialState)) {
+    if (statuses.includes(initialState)) {
       setCurrent(initialState);
     }
     setFlag(true);
@@ -115,7 +113,7 @@ function Status({ id, initialState, timeStarted, type }: StatusProps) {
           id,
           newStatus,
         });
-        const broadcastChange: broadcastRequest = {
+        const broadcastChange: broadcastStatusRequest = {
           id: id,
           status: newStatus,
           timeCreated: new Date(),
@@ -130,7 +128,7 @@ function Status({ id, initialState, timeStarted, type }: StatusProps) {
           id,
           newStatus,
         });
-        const broadcastChange: broadcastRequest = {
+        const broadcastChange: broadcastStatusRequest = {
           id: id,
           status: newStatus,
           timeCreated: new Date(),
