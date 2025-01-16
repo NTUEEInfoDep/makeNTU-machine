@@ -50,21 +50,18 @@ function LaserCutMachineList({ index }: MachineListProps) {
   useEffect(() => {
     const socket = io();
 
-    socket.on("laserCutQueue", (laserCutQueue: broadcastStatusRequest) => {
-      if (requestList) {
-        const updatedRequestList = requestList.map((request) => {
-          if (request.id === laserCutQueue.id) {
-            return {
-              ...request,
-              status: laserCutQueue.status,
-              timeleft: laserCutQueue.timeCreated,
-            };
-          }
-          return request;
-        });
-
-        setRequestList(updatedRequestList);
-      }
+    socket.on("laserCutQueue", (_: broadcastStatusRequest) => {
+      const gReq = async () => {
+        try {
+          const requestListInit = await getLaserCutRequest();
+          const requestListJson: indRequestForLaserCut[] =
+            requestListInit["dbresultReq"];
+          setRequestList(requestListJson);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      gReq();
     });
 
     socket.on(
