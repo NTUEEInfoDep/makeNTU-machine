@@ -17,7 +17,6 @@ import type {
   indRequestForLaserCut,
 } from "@/shared/types";
 import { io } from "socket.io-client";
-import LoaderSpinner from "./LoaderSpinner";
 
 function LaserCutMachineList({ index }: MachineListProps) {
   const {
@@ -33,11 +32,9 @@ function LaserCutMachineList({ index }: MachineListProps) {
   const [dialogString, setDialogString] = useState("");
   const [name, setName] = useState(0);
   const [groupID, setGroupID] = useState(0);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const gReq = async () => {
-      setLoading(true);
       try {
         const requestListInit = await getLaserCutRequest();
         const requestListJson: indRequestForLaserCut[] =
@@ -46,7 +43,6 @@ function LaserCutMachineList({ index }: MachineListProps) {
       } catch (e) {
         console.log(e);
       }
-      setLoading(false);
     };
     gReq();
   }, []);
@@ -94,10 +90,6 @@ function LaserCutMachineList({ index }: MachineListProps) {
       socket.disconnect();
     };
   }, [requestList]);
-
-  if (loading) {
-    return <LoaderSpinner />;
-  }
 
   return (
     <>

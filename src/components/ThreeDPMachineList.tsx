@@ -11,7 +11,6 @@ import CommentDialog from "./CommentDialog";
 import FinishedDialog from "./FinishedDialog";
 import { threeDPMachineListTableCells } from "@/constant/index";
 import type { MachineListProps, indRequestForThreeDP } from "@/shared/types";
-import LoaderSpinner from "./LoaderSpinner";
 
 function ThreeDPMachineList({ index }: MachineListProps) {
   const { getThreeDPRequest, putThreeDPRequestStatus } = useThreeDPRequest();
@@ -23,11 +22,9 @@ function ThreeDPMachineList({ index }: MachineListProps) {
   const [dialogString, setDialogString] = useState("");
   const [name, setName] = useState(0);
   const [groupID, setGroupID] = useState(0);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const gReq = async () => {
-      setLoading(true);
       try {
         const requestListInit = await getThreeDPRequest();
         const requestListJson: indRequestForThreeDP[] =
@@ -36,14 +33,9 @@ function ThreeDPMachineList({ index }: MachineListProps) {
       } catch (e) {
         console.log(e);
       }
-      setLoading(false);
     };
     gReq();
   }, []);
-
-  if (loading) {
-    return <LoaderSpinner />;
-  }
 
   return (
     <>
