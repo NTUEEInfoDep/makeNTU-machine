@@ -22,8 +22,24 @@ function HeadBar() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setLoading(true);
+    const sessionToken = localStorage.getItem("session-token");
+
+    if (sessionToken) {
+      try {
+        await fetch("/api/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sessionToken }),
+        });
+      } catch (error) {
+        console.error("Failed to logout:", error);
+      }
+    }
+
     localStorage.clear();
     router.push("/");
     setPushToLoginPage(false);
@@ -68,8 +84,8 @@ function HeadBar() {
           <img
             data-testid="header-logo"
             className="w-12 h-12 rounded-full"
-            src="/logo-2024.png"
-            alt="logo-2024"
+            src="/logo-2025.png"
+            alt="logo-2025"
           />
           <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-white">
             MakeNTU 機台借用申請網站

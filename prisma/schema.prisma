@@ -17,6 +17,7 @@ model Account {
   permission  String
   LaserCutReq LaserCutReq[]
   ThreeDPReq  ThreeDPReq[]
+  sessions    Session[]
 }
 
 model LaserCutReq {
@@ -45,4 +46,12 @@ model ThreeDPReq {
   status      String
   timeleft    DateTime
   createAt    DateTime @default(now())
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      Account  @relation(fields: [userId], references: [id])
+  token     String   @unique
+  createdAt DateTime @default(now())
 }

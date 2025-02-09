@@ -10,7 +10,11 @@ import { TableRow } from "@mui/material";
 import CommentDialog from "./CommentDialog";
 import FinishedDialog from "./FinishedDialog";
 import { threeDPMachineListTableCells } from "@/constant/index";
-import type { MachineListProps, broadcastStatusRequest, indRequestForThreeDP } from "@/shared/types";
+import type {
+  MachineListProps,
+  broadcastStatusRequest,
+  indRequestForThreeDP,
+} from "@/shared/types";
 import { io } from "socket.io-client";
 
 function ThreeDPMachineList({ index }: MachineListProps) {
@@ -41,22 +45,19 @@ function ThreeDPMachineList({ index }: MachineListProps) {
   useEffect(() => {
     const socket = io();
 
-    socket.on(
-      "threeDPQueue",
-      (_: broadcastStatusRequest) => {
-        const gReq = async () => {
-          try {
-            const requestListInit = await getThreeDPRequest();
-            const requestListJson: indRequestForThreeDP[] =
-              requestListInit["dbresultReq"];
-            setRequestList(requestListJson);
-          } catch (e) {
-            console.log(e);
-          }
-        };
-        gReq();
-      },
-    );
+    socket.on("threeDPQueue", (_: broadcastStatusRequest) => {
+      const gReq = async () => {
+        try {
+          const requestListInit = await getThreeDPRequest();
+          const requestListJson: indRequestForThreeDP[] =
+            requestListInit["dbresultReq"];
+          setRequestList(requestListJson);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      gReq();
+    });
 
     return () => {
       socket.disconnect();

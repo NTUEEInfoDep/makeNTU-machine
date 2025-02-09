@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
-// import bcrypt from "bcrypt";
 import { env } from "@/utils/env";
 import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 
 const prisma = new PrismaClient();
 const secretkey: string = process.env.PASSWORD_SECRET
@@ -52,17 +52,45 @@ export async function POST(req: NextRequest) {
         },
       });
       if (!user) {
-        return NextResponse.json({ error: "使用者不存在" }, { status: 400 });
+        return NextResponse.json({ error: "使用者不存在" }, { status: 404 });
       } else {
         const isPasswordValid = password === user.password ? true : false;
         if (isPasswordValid) {
+          // Check for existing session
+          const existingSession = await prisma.session.findFirst({
+            where: {
+              userId: user.id,
+            },
+          });
+
+          if (existingSession) {
+            return NextResponse.json(
+              { error: "此帳號已在其他地方登入" },
+              { status: 400 },
+            );
+          }
+
+          // Create a new session
+          const sessionToken = uuidv4();
+          await prisma.session.create({
+            data: {
+              userId: user.id,
+              token: sessionToken,
+            },
+          });
+
           const token = jwt.sign(
             { username: user.name, permission: user.permission },
             secretkey,
             { expiresIn: env.JWT_EXPIRES_IN },
           );
           return NextResponse.json(
-            { message: "OK", user: user, token: token },
+            {
+              message: "OK",
+              user: user,
+              token: token,
+              sessionToken: sessionToken,
+            },
             { status: 200 },
           );
         } else {

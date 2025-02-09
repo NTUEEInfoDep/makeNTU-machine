@@ -52,17 +52,20 @@ function Login() {
   // };
 
   const handleLogin = async () => {
-    if (!checkInput()) {
+    if (!username || !password) {
+      alert("帳號或密碼不得為空");
       return;
     }
     try {
       setLoading(true);
-      const { user: user, token: token } = await getAccount({
+      const { user, token, sessionToken } = await getAccount({
         username,
         password,
       });
       localStorage.setItem("jwt-token: ", token);
-      if (parseInt(user.name) > 45 || parseInt(user.name) === 0) {
+      localStorage.setItem("session-token", sessionToken);
+
+      if (user.permission === "admin") {
         router.push(`/admin/${username}`);
       } else {
         router.push(`/contestant/${username}`);
@@ -77,15 +80,6 @@ function Login() {
       setPassword("");
       alert("登入失敗: " + String(error).split(": ")[1]);
       setLoading(false);
-    }
-  };
-
-  const checkInput = () => {
-    if (username === "" || password === "") {
-      alert("帳號或密碼不得為空");
-      return false;
-    } else {
-      return true;
     }
   };
 
@@ -109,8 +103,8 @@ function Login() {
         <img
           data-testid="header-logo"
           className="w-20 h-20 rounded-full"
-          src="/logo-2024.png"
-          alt="logo-2024"
+          src="/logo-2025.png"
+          alt="logo-2025"
         />
         <p className="text-white text-5xl font-semibold">MakeNTU</p>
       </div>
